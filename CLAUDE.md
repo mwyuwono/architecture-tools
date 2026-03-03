@@ -53,16 +53,25 @@ This project uses components from the **M3 Design System v2** located at:
 - `--md-sys-shape-corner-medium`: 16px
 - `--md-sys-shape-corner-full`: 9999px (capsule)
 
+## Tools
+
+| Tool | File | Description |
+|------|------|-------------|
+| Stair Calculator | `stairs.html` | Calculate residential stair dimensions (risers, treads, total run) based on IRC code |
+
+### Adding New Tools
+
+1. Create the tool HTML file in project root (e.g., `newtool.html`)
+2. Add a card to `index.html` following the existing pattern
+3. Update this table in CLAUDE.md
+
 ## Project Structure
 
 ```
 architecture-tools/
-├── src/
-│   ├── tools/           # Individual tool implementations
-│   ├── components/      # Project-specific components (if needed)
-│   └── styles/          # Project-specific styles
-├── public/              # Static assets
-├── index.html           # Main entry point
+├── index.html           # Landing page listing all tools
+├── stairs.html          # Stair Calculator tool
+├── stair-calculator-reqs.md  # Requirements doc
 ├── CLAUDE.md            # AI assistant instructions
 └── agents.md            # Pointer for non-Claude AI tools
 ```

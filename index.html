@@ -51,7 +51,36 @@
 
     .tool-card p {
       color: var(--md-sys-color-on-surface-variant);
-      margin: 0;
+      margin: 0 0 var(--spacing-md) 0;
+    }
+
+    .tool-category {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--md-sys-color-primary);
+      margin-bottom: var(--spacing-xs);
+      display: block;
+    }
+
+    .tool-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      color: var(--md-sys-color-primary);
+      text-decoration: none;
+      font-weight: 500;
+      margin-top: auto;
+    }
+
+    .tool-link:hover {
+      text-decoration: underline;
+    }
+
+    .tool-card {
+      display: flex;
+      flex-direction: column;
     }
   </style>
 </head>
@@ -60,11 +89,15 @@
   <p>A collection of vibe-coded tools for architectural practice.</p>
 
   <div class="tools-grid">
-    <!-- Tools will be added here -->
+    <!-- Stair Calculator -->
     <div class="tool-card">
-      <h2>Coming Soon</h2>
-      <p>Add your first tool to get started.</p>
+      <span class="tool-category">Calculators</span>
+      <h2>Stair Calculator</h2>
+      <p>Calculate residential stair dimensions based on IRC code. Enter floor-to-floor height to get riser count, tread depth, and total run.</p>
+      <a href="stairs.html" class="tool-link">Open Tool →</a>
     </div>
+
+    <!-- Add new tools here following the same pattern -->
   </div>
 
   <!-- M3 Design System Web Components -->
