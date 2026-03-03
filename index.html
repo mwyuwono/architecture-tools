@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Architecture Tools</title>
+  <title>Architecture Tools | Weaver-Yuwono</title>
 
   <!-- M3 Design System -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/wyyew/m3-design-v2@main/src/styles/tokens.css">
@@ -12,93 +12,237 @@
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: var(--font-sans);
       background-color: var(--md-sys-color-background);
       color: var(--md-sys-color-on-surface);
       margin: 0;
-      padding: var(--spacing-xl);
+      padding: 0;
     }
 
-    h1 {
-      font-family: var(--font-serif);
-      font-weight: 500;
-      color: var(--md-sys-color-primary);
-      margin-bottom: var(--spacing-lg);
+    /* Editorial Container */
+    .editorial-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 var(--spacing-xl);
     }
 
-    .tools-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    @media (min-width: 1280px) {
+      .editorial-container {
+        padding: 0 120px;
+      }
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 80px 0 64px;
+    }
+
+    .hero-content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-2xl);
+    }
+
+    @media (min-width: 1024px) {
+      .hero-content {
+        flex-direction: row;
+        align-items: center;
+      }
+    }
+
+    .hero-text {
+      display: flex;
+      flex-direction: column;
       gap: var(--spacing-lg);
-      margin-top: var(--spacing-xl);
     }
 
-    .tool-card {
-      background: var(--md-sys-color-surface);
-      border-radius: var(--md-sys-shape-corner-medium);
-      padding: var(--spacing-lg);
+    @media (min-width: 1024px) {
+      .hero-text {
+        flex: 1;
+      }
     }
 
-    .tool-card h2 {
-      font-family: var(--font-serif);
-      font-size: 1.25rem;
-      margin: 0 0 var(--spacing-sm) 0;
-    }
-
-    .tool-card p {
-      color: var(--md-sys-color-on-surface-variant);
-      margin: 0 0 var(--spacing-md) 0;
-    }
-
-    .tool-category {
+    .brand-label {
       font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
+      font-weight: 700;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
       color: var(--md-sys-color-primary);
-      margin-bottom: var(--spacing-xs);
-      display: block;
     }
 
-    .tool-link {
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(3rem, 8vw, 4.5rem);
+      font-weight: 500;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--md-sys-color-on-surface);
+      margin: 0;
+    }
+
+    .hero-title em {
+      font-style: italic;
+    }
+
+    .hero-description {
+      font-size: 1.125rem;
+      font-weight: 300;
+      line-height: 1.6;
+      color: var(--md-sys-color-on-surface-variant);
+      max-width: 32rem;
+      margin: 0;
+    }
+
+    .hero-image-container {
+      aspect-ratio: 4 / 3;
+      background-color: rgba(44, 76, 59, 0.05);
+      border-radius: var(--md-sys-shape-corner-medium);
+      overflow: hidden;
+      position: relative;
+    }
+
+    @media (min-width: 1024px) {
+      .hero-image-container {
+        flex: 1;
+      }
+    }
+
+    .hero-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(100%);
+      opacity: 0.8;
+      transition: all 0.7s ease;
+    }
+
+    .hero-image-container:hover .hero-image {
+      filter: grayscale(0%);
+      opacity: 1;
+    }
+
+    .hero-image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(253, 251, 247, 0.4), transparent);
+    }
+
+    /* IRC Compliant Section */
+    .irc-section {
+      background-color: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
+      padding: 96px 0;
+    }
+
+    .irc-content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-lg);
+      max-width: 32rem;
+    }
+
+    .irc-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .irc-icon .material-symbols-outlined {
+      font-size: 24px;
+    }
+
+    .irc-title {
+      font-family: var(--font-serif);
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .irc-description {
+      font-size: 1rem;
+      line-height: 1.6;
+      opacity: 0.6;
+      margin: 0;
+    }
+
+    .irc-link {
       display: inline-flex;
       align-items: center;
       gap: var(--spacing-xs);
-      color: var(--md-sys-color-primary);
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: inherit;
       text-decoration: none;
-      font-weight: 500;
-      margin-top: auto;
+      transition: opacity 0.2s ease;
     }
 
-    .tool-link:hover {
-      text-decoration: underline;
+    .irc-link:hover {
+      opacity: 0.8;
     }
 
-    .tool-card {
-      display: flex;
-      flex-direction: column;
+    .irc-link .material-symbols-outlined {
+      font-size: 1rem;
     }
   </style>
 </head>
 <body>
-  <h1>Architecture Tools</h1>
-  <p>A collection of vibe-coded tools for architectural practice.</p>
 
-  <div class="tools-grid">
-    <!-- Stair Calculator -->
-    <div class="tool-card">
-      <span class="tool-category">Calculators</span>
-      <h2>Stair Calculator</h2>
-      <p>Calculate residential stair dimensions based on IRC code. Enter floor-to-floor height to get riser count, tread depth, and total run.</p>
-      <a href="stairs.html" class="tool-link">Open Tool →</a>
+  <!-- Hero Section -->
+  <main class="hero editorial-container">
+    <div class="hero-content">
+      <div class="hero-text">
+        <span class="brand-label">Weaver-Yuwono</span>
+        <h1 class="hero-title">
+          Architecture<br><em>Tools</em>
+        </h1>
+        <p class="hero-description">
+          A collection of vibe-coded tools for architectural practice. Built with the Paper and Ink palette for sophisticated design workflows.
+        </p>
+      </div>
+      <div class="hero-image-container">
+        <img
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNL6HdYlhP4jLE63wbLOQCLzkVVinAiDpMJkY7D-WxZpbrQmJuedVqzpf6aQR566Hk_4KEJOR0ge-5ldoCfJO0VIxLpWvggNKcNt9YPOaJRP0GQqdvS0p0bxT5qotFIAJfIFwJElSmaOAwCry38B6HQivF_mopfQr9GZ12xyzXqVSrdGeOBKaBcUSDkgT7NFimbCJAho9aYSO4aRMhKyNg9l4GzIvddWcOT1uvvenAyYqzIneWJsSEH1xb9VACqotNKJdOxCi-9c4"
+          alt="Architectural conceptual model"
+          class="hero-image"
+        >
+        <div class="hero-image-overlay"></div>
+      </div>
     </div>
+  </main>
 
-    <!-- Add new tools here following the same pattern -->
-  </div>
+  <!-- IRC Compliant Section -->
+  <section class="irc-section">
+    <div class="editorial-container">
+      <div class="irc-content">
+        <div class="irc-icon">
+          <span class="material-symbols-outlined">verified</span>
+        </div>
+        <h2 class="irc-title">IRC Compliant</h2>
+        <p class="irc-description">
+          Always up to date with the latest residential codes. Our logic is peer-reviewed and tested against multi-state interpretations.
+        </p>
+        <a href="stairs.html" class="irc-link">
+          View IRC Code
+          <span class="material-symbols-outlined">arrow_forward</span>
+        </a>
+      </div>
+    </div>
+  </section>
 
   <!-- M3 Design System Web Components -->
   <script type="module" src="https://cdn.jsdelivr.net/gh/wyyew/m3-design-v2@main/dist/web-components.js"></script>
