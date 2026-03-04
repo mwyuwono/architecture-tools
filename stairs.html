@@ -888,20 +888,29 @@
             const flight2Treads = flight2Risers - 1;
             const flight1Run = flight1Treads * treadDepth;
             const flight2Run = flight2Treads * treadDepth;
-            const flight1Height = flight1Risers * riserHeight;
-            const flight2Height = flight2Risers * riserHeight;
 
-            // Total horizontal span
-            const totalRun = flight1Run + landingDepth + flight2Run;
+            // For section view: total horizontal span includes landing depth
+            // Flight 1: 0 → flight1Run (going right)
+            // Landing: flight1Run → flight1Run + landingDepth (36" horizontal platform)
+            // Flight 2: starts at landing far edge, goes left back toward start
+            const totalHorizontalSpan = flight1Run + landingDepth; // 60" + 36" = 96" total
 
-            // Scale to fit
-            const scaleX = drawWidth / totalRun;
+            // Unified scale from true bounding box
+            const scaleX = drawWidth / totalHorizontalSpan;
             const scaleY = drawHeight / totalHeight;
             const scale = Math.min(scaleX, scaleY);
 
-            // Starting position (bottom left)
+            // Starting position for Flight 1 (bottom left)
             const startX = padding;
             const startY = canvas.height - padding;
+
+            // Draw lower floor line
+            ctx.beginPath();
+            ctx.moveTo(startX - 30, startY);
+            ctx.lineTo(startX + 40, startY);
+            ctx.strokeStyle = LIGHT_GREY;
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
 
             // Draw Flight 1 (going up-right)
             ctx.beginPath();
@@ -926,19 +935,28 @@
             ctx.lineWidth = 2.5;
             ctx.stroke();
 
-            // Draw Landing (horizontal platform)
-            const landingStartX = currentX;
+            // Draw Landing as horizontal segment (36" depth)
             const landingY = currentY;
-            currentX += landingDepth * scale;
+            const landingStartX = currentX;
+            const landingEndX = currentX + (landingDepth * scale);
 
+            // Draw the landing platform line
             ctx.beginPath();
             ctx.moveTo(landingStartX, landingY);
-            ctx.lineTo(currentX, landingY);
-            ctx.strokeStyle = ACCENT_COLOR;
-            ctx.lineWidth = 4;
+            ctx.lineTo(landingEndX, landingY);
+            ctx.strokeStyle = CHARCOAL;
+            ctx.lineWidth = 2.5;
             ctx.stroke();
 
-            // Draw Flight 2 (going up-right from landing)
+            // Small indicators at landing edges
+            ctx.beginPath();
+            ctx.arc(landingStartX, landingY, 3, 0, Math.PI * 2);
+            ctx.arc(landingEndX, landingY, 3, 0, Math.PI * 2);
+            ctx.fillStyle = ACCENT_COLOR;
+            ctx.fill();
+
+            // Flight 2 starts at the nose of landing (same X where Flight 1 ended)
+            currentX = landingStartX;
             ctx.beginPath();
             ctx.moveTo(currentX, currentY);
 
@@ -947,9 +965,9 @@
                 currentY -= riserHeight * scale;
                 ctx.lineTo(currentX, currentY);
 
-                // Tread (right), except after last riser
+                // Tread (LEFT - reversed direction), except after last riser
                 if (i < flight2Treads) {
-                    currentX += treadDepth * scale;
+                    currentX -= treadDepth * scale;
                     ctx.lineTo(currentX, currentY);
                 }
             }
@@ -958,27 +976,35 @@
             ctx.lineWidth = 2.5;
             ctx.stroke();
 
-            // Draw Floor Lines
+            // Draw upper floor line - solid portion near stairs
             ctx.beginPath();
-            ctx.moveTo(startX - 20, startY);
-            ctx.lineTo(startX + 30, startY);
-            ctx.moveTo(currentX - 30, currentY);
-            ctx.lineTo(currentX + 20, currentY);
+            ctx.moveTo(currentX, currentY);
+            ctx.lineTo(currentX + 40, currentY);
             ctx.strokeStyle = LIGHT_GREY;
             ctx.lineWidth = 1.5;
             ctx.stroke();
+
+            // Dotted extension leftward to align with lower floor start (startX)
+            // This shows the 180° switchback returns above the starting point
+            ctx.beginPath();
+            ctx.setLineDash([3, 3]);
+            ctx.moveTo(currentX, currentY);
+            ctx.lineTo(startX - 30, currentY); // Extend past lower floor start
+            ctx.stroke();
+            ctx.setLineDash([]);
 
             // Labels
             ctx.font = 'italic 12px Georgia';
             ctx.fillStyle = '#666666';
             ctx.fillText('Lower Level', startX - 20, startY + 20);
-            ctx.fillText('Upper Level', currentX - 30, currentY - 15);
+            ctx.fillText('Upper Level', startX - 20, currentY - 15); // Aligned with lower level label
 
-            // Landing label
+            // Landing label (centered over 36" segment)
+            const landingCenterX = landingStartX + (landingDepth * scale / 2);
             ctx.font = 'bold 10px Inter, sans-serif';
             ctx.fillStyle = ACCENT_COLOR;
             ctx.textAlign = 'center';
-            ctx.fillText('LANDING', landingStartX + (landingDepth * scale) / 2, landingY + 20);
+            ctx.fillText('LANDING', landingCenterX, landingY + 20);
             ctx.textAlign = 'left';
         }
 
@@ -999,7 +1025,7 @@
             const startX = padding;
             const startY = padding;
 
-            // Flight 1 (left side, going up)
+            // Flight 1 (bottom row, going RIGHT toward landing)
             const f1Width = width * scale;
             const f1Length = flight1Run * scale;
 
@@ -1021,7 +1047,25 @@
                 ctx.stroke();
             }
 
-            // Landing (top right corner)
+            // Direction arrow for Flight 1 (pointing RIGHT)
+            const f1ArrowY = startY + f1Width + f1Width / 2;
+            ctx.beginPath();
+            ctx.moveTo(startX + 15, f1ArrowY);
+            ctx.lineTo(startX + f1Length - 15, f1ArrowY);
+            ctx.lineTo(startX + f1Length - 28, f1ArrowY - 5);
+            ctx.moveTo(startX + f1Length - 15, f1ArrowY);
+            ctx.lineTo(startX + f1Length - 28, f1ArrowY + 5);
+            ctx.strokeStyle = ACCENT_COLOR;
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // UP label for Flight 1
+            ctx.font = 'bold 10px Inter, sans-serif';
+            ctx.fillStyle = ACCENT_COLOR;
+            ctx.textAlign = 'center';
+            ctx.fillText('UP', startX + f1Length / 2, f1ArrowY - 8);
+
+            // Landing (right side, connecting both flights)
             const landingX = startX + Math.max(flight1Run, flight2Run) * scale;
             const landingY = startY;
             const landingW = landingDepth * scale;
@@ -1033,7 +1077,7 @@
             ctx.lineWidth = 1.5;
             ctx.strokeRect(landingX, landingY, landingW, landingH);
 
-            // Flight 2 (right side, going up from landing)
+            // Flight 2 (top row, going LEFT away from landing - reversed direction)
             const f2Length = flight2Run * scale;
 
             const f2StartX = startX + (Math.max(flight1Run, flight2Run) - flight2Run) * scale;
@@ -1055,10 +1099,24 @@
                 ctx.stroke();
             }
 
+            // Direction arrow for Flight 2 (pointing LEFT - reversed)
+            const f2ArrowY = startY + f1Width / 2;
+            const f2ArrowStartX = f2StartX + f2Length - 15;
+            const f2ArrowEndX = f2StartX + 15;
+            ctx.beginPath();
+            ctx.moveTo(f2ArrowStartX, f2ArrowY);
+            ctx.lineTo(f2ArrowEndX, f2ArrowY);
+            ctx.lineTo(f2ArrowEndX + 13, f2ArrowY - 5);
+            ctx.moveTo(f2ArrowEndX, f2ArrowY);
+            ctx.lineTo(f2ArrowEndX + 13, f2ArrowY + 5);
+            ctx.strokeStyle = ACCENT_COLOR;
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // UP label for Flight 2
+            ctx.fillText('UP', f2StartX + f2Length / 2, f2ArrowY - 8);
+
             // Landing label
-            ctx.font = 'bold 10px Inter, sans-serif';
-            ctx.fillStyle = ACCENT_COLOR;
-            ctx.textAlign = 'center';
             ctx.fillText('LANDING', landingX + landingW / 2, landingY + landingH / 2 + 4);
             ctx.textAlign = 'left';
         }
