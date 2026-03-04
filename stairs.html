@@ -486,7 +486,7 @@
 
             <div class="visuals">
                 <div class="canvas-container">
-                    <canvas id="stairCanvas" width="600" height="500"></canvas>
+                    <canvas id="stairCanvas" width="650" height="520"></canvas>
                 </div>
             </div>
         </div>
@@ -532,6 +532,119 @@
         const ACCENT_COLOR = '#004225';
         const CHARCOAL = '#1a1a1a';
         const LIGHT_GREY = '#d1d1d1';
+
+        // Architectural dimension configuration
+        const DimensionConfig = {
+            lineWeight: 0.75,
+            tickLength: 4,
+            tickAngle: 45,           // degrees (architectural standard)
+            gapFromObject: 8,
+            extensionOvershoot: 4,
+            textOffset: 6,
+            firstDimensionGap: 30,
+            subsequentGap: 20,
+            fontSize: 10,
+            fontFamily: "'Inter', sans-serif",
+            color: '#555555'
+        };
+
+        // Draw a 45-degree architectural tick mark
+        function drawTickMark(ctx, x, y, isVertical = false) {
+            const len = DimensionConfig.tickLength;
+            ctx.save();
+            ctx.strokeStyle = DimensionConfig.color;
+            ctx.lineWidth = DimensionConfig.lineWeight;
+            ctx.beginPath();
+            if (isVertical) {
+                // For vertical dimensions, tick goes from bottom-left to top-right
+                ctx.moveTo(x - len / 2, y + len / 2);
+                ctx.lineTo(x + len / 2, y - len / 2);
+            } else {
+                // For horizontal dimensions, tick goes from bottom-left to top-right
+                ctx.moveTo(x - len / 2, y + len / 2);
+                ctx.lineTo(x + len / 2, y - len / 2);
+            }
+            ctx.stroke();
+            ctx.restore();
+        }
+
+        // Draw horizontal dimension with extension lines and ticks
+        function drawHorizontalDimension(ctx, x1, x2, objectY, dimY, label) {
+            const cfg = DimensionConfig;
+            ctx.save();
+            ctx.strokeStyle = cfg.color;
+            ctx.lineWidth = cfg.lineWeight;
+
+            // Extension lines (from object to dimension line)
+            ctx.beginPath();
+            // Left extension line
+            ctx.moveTo(x1, objectY + cfg.gapFromObject);
+            ctx.lineTo(x1, dimY + cfg.extensionOvershoot);
+            // Right extension line
+            ctx.moveTo(x2, objectY + cfg.gapFromObject);
+            ctx.lineTo(x2, dimY + cfg.extensionOvershoot);
+            ctx.stroke();
+
+            // Dimension line
+            ctx.beginPath();
+            ctx.moveTo(x1, dimY);
+            ctx.lineTo(x2, dimY);
+            ctx.stroke();
+
+            // Tick marks at each end
+            drawTickMark(ctx, x1, dimY, false);
+            drawTickMark(ctx, x2, dimY, false);
+
+            // Label (centered above dimension line)
+            ctx.font = `500 ${cfg.fontSize}px ${cfg.fontFamily}`;
+            ctx.fillStyle = cfg.color;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+            ctx.fillText(label, (x1 + x2) / 2, dimY - cfg.textOffset);
+
+            ctx.restore();
+        }
+
+        // Draw vertical dimension with extension lines and ticks
+        function drawVerticalDimension(ctx, y1, y2, objectX, dimX, label) {
+            const cfg = DimensionConfig;
+            ctx.save();
+            ctx.strokeStyle = cfg.color;
+            ctx.lineWidth = cfg.lineWeight;
+
+            // Extension lines (from object to dimension line)
+            ctx.beginPath();
+            // Top extension line
+            ctx.moveTo(objectX + cfg.gapFromObject, y1);
+            ctx.lineTo(dimX + cfg.extensionOvershoot, y1);
+            // Bottom extension line
+            ctx.moveTo(objectX + cfg.gapFromObject, y2);
+            ctx.lineTo(dimX + cfg.extensionOvershoot, y2);
+            ctx.stroke();
+
+            // Dimension line
+            ctx.beginPath();
+            ctx.moveTo(dimX, y1);
+            ctx.lineTo(dimX, y2);
+            ctx.stroke();
+
+            // Tick marks at each end
+            drawTickMark(ctx, dimX, y1, true);
+            drawTickMark(ctx, dimX, y2, true);
+
+            // Label (rotated 90° counterclockwise, centered beside dimension line)
+            ctx.font = `500 ${cfg.fontSize}px ${cfg.fontFamily}`;
+            ctx.fillStyle = cfg.color;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'bottom';
+
+            const midY = (y1 + y2) / 2;
+            ctx.translate(dimX - cfg.textOffset, midY);
+            ctx.rotate(-Math.PI / 2);
+            ctx.fillText(label, 0, 0);
+
+            ctx.restore();
+        }
 
         // Helper: Convert inches to feet-inches string
         function toFeetInches(inches) {
@@ -768,9 +881,9 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             const totalRun = totalTreads * treadDepth;
-            const padding = 60;
-            const drawWidth = canvas.width - (padding * 2);
-            const drawHeight = canvas.height - (padding * 2);
+            const padding = 80;
+            const drawWidth = canvas.width - (padding * 2) - 50; // Extra space for dimensions
+            const drawHeight = canvas.height - (padding * 2) - 40;
 
             // Scaling to fit canvas
             const scaleX = drawWidth / totalRun;
@@ -787,15 +900,29 @@
             let currentX = startX;
             let currentY = startY;
 
+            // Track first step coordinates for detail dimensions
+            let firstRiserTopY = startY;
+            let firstTreadEndX = startX;
+
             for (let i = 0; i < totalRisers; i++) {
                 // Draw Riser (up)
                 currentY -= riserHeight * scale;
                 ctx.lineTo(currentX, currentY);
 
+                // Capture first riser top position
+                if (i === 0) {
+                    firstRiserTopY = currentY;
+                }
+
                 // Draw Tread (right), except for the very last step
                 if (i < totalTreads) {
                     currentX += treadDepth * scale;
                     ctx.lineTo(currentX, currentY);
+
+                    // Capture first tread end position
+                    if (i === 0) {
+                        firstTreadEndX = currentX;
+                    }
                 }
             }
 
@@ -814,18 +941,40 @@
             ctx.stroke();
 
             // Labels
-            ctx.font = 'italic 12px Georgia';
-            ctx.fillStyle = '#666666';
-            ctx.fillText('Lower Level', startX - 20, startY + 20);
-            ctx.fillText('Upper Level', currentX - 20, currentY - 15);
+            ctx.font = 'italic 11px Georgia';
+            ctx.fillStyle = '#888888';
+            ctx.fillText('Lower', startX - 25, startY + 16);
+            ctx.fillText('Upper', currentX + 35, currentY + 4);
+
+            // === ARCHITECTURAL DIMENSIONS ===
+
+            const cfg = DimensionConfig;
+            const scaledRiserHeight = riserHeight * scale;
+            const scaledTreadDepth = treadDepth * scale;
+
+            // 1. Total Rise (vertical dimension on right side)
+            const totalRiseDimX = currentX + cfg.firstDimensionGap + 20;
+            drawVerticalDimension(ctx, currentY, startY, currentX, totalRiseDimX, toFeetInches(height));
+
+            // 2. Total Run (horizontal dimension at bottom)
+            const totalRunDimY = startY + cfg.firstDimensionGap;
+            drawHorizontalDimension(ctx, startX, currentX, startY, totalRunDimY, toFeetInches(totalRun));
+
+            // 3. Representative Riser Height (first riser, left side)
+            const riserDimX = startX - cfg.firstDimensionGap;
+            drawVerticalDimension(ctx, firstRiserTopY, startY, startX, riserDimX, formatInches(riserHeight));
+
+            // 4. Representative Tread Depth (first tread, below step)
+            const treadDimY = firstRiserTopY + scaledRiserHeight + cfg.subsequentGap + 5;
+            drawHorizontalDimension(ctx, startX, firstTreadEndX, firstRiserTopY, treadDimY, formatInches(treadDepth));
         }
 
         function drawSingleRunPlan(totalTreads, treadDepth, width, totalRun) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            const padding = 60;
-            const drawWidth = canvas.width - (padding * 2);
-            const drawHeight = canvas.height - (padding * 2);
+            const padding = 80;
+            const drawWidth = canvas.width - (padding * 2) - 40;
+            const drawHeight = canvas.height - (padding * 2) - 40;
 
             // Scale to fit
             const scale = Math.min(drawWidth / totalRun, drawHeight / width);
@@ -833,9 +982,9 @@
             const stairWidth = totalRun * scale;
             const stairHeight = width * scale;
 
-            // Center the drawing
-            const startX = (canvas.width - stairWidth) / 2;
-            const startY = (canvas.height - stairHeight) / 2;
+            // Center the drawing (with offset for dimensions)
+            const startX = (canvas.width - stairWidth) / 2 - 15;
+            const startY = (canvas.height - stairHeight) / 2 - 15;
 
             // Draw outer rectangle
             ctx.fillStyle = '#fcfcfc';
@@ -874,14 +1023,26 @@
             ctx.textAlign = 'center';
             ctx.fillText('UP', startX + stairWidth / 2, arrowY - 10);
             ctx.textAlign = 'left';
+
+            // === ARCHITECTURAL DIMENSIONS ===
+
+            const cfg = DimensionConfig;
+
+            // 1. Total Run (horizontal dimension at bottom)
+            const runDimY = startY + stairHeight + cfg.firstDimensionGap;
+            drawHorizontalDimension(ctx, startX, startX + stairWidth, startY + stairHeight, runDimY, toFeetInches(totalRun));
+
+            // 2. Stair Width (vertical dimension on right side)
+            const widthDimX = startX + stairWidth + cfg.firstDimensionGap;
+            drawVerticalDimension(ctx, startY, startY + stairHeight, startX + stairWidth, widthDimX, toFeetInches(width));
         }
 
         function drawSwitchbackSection(flight1Risers, flight2Risers, riserHeight, treadDepth, landingDepth, width, totalHeight) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            const padding = 60;
-            const drawWidth = canvas.width - (padding * 2);
-            const drawHeight = canvas.height - (padding * 2);
+            const padding = 80;
+            const drawWidth = canvas.width - (padding * 2) - 50;
+            const drawHeight = canvas.height - (padding * 2) - 40;
 
             // Calculate dimensions
             const flight1Treads = flight1Risers - 1;
@@ -890,10 +1051,7 @@
             const flight2Run = flight2Treads * treadDepth;
 
             // For section view: total horizontal span includes landing depth
-            // Flight 1: 0 → flight1Run (going right)
-            // Landing: flight1Run → flight1Run + landingDepth (36" horizontal platform)
-            // Flight 2: starts at landing far edge, goes left back toward start
-            const totalHorizontalSpan = flight1Run + landingDepth; // 60" + 36" = 96" total
+            const totalHorizontalSpan = flight1Run + landingDepth;
 
             // Unified scale from true bounding box
             const scaleX = drawWidth / totalHorizontalSpan;
@@ -919,15 +1077,27 @@
             let currentX = startX;
             let currentY = startY;
 
+            // Track first step for detail dimensions
+            let firstRiserTopY = startY;
+            let firstTreadEndX = startX;
+
             for (let i = 0; i < flight1Risers; i++) {
                 // Riser (up)
                 currentY -= riserHeight * scale;
                 ctx.lineTo(currentX, currentY);
 
+                if (i === 0) {
+                    firstRiserTopY = currentY;
+                }
+
                 // Tread (right), except after last riser
                 if (i < flight1Treads) {
                     currentX += treadDepth * scale;
                     ctx.lineTo(currentX, currentY);
+
+                    if (i === 0) {
+                        firstTreadEndX = currentX;
+                    }
                 }
             }
 
@@ -956,6 +1126,7 @@
             ctx.fill();
 
             // Flight 2 starts at the nose of landing (same X where Flight 1 ended)
+            const flight2StartX = landingStartX;
             currentX = landingStartX;
             ctx.beginPath();
             ctx.moveTo(currentX, currentY);
@@ -976,6 +1147,9 @@
             ctx.lineWidth = 2.5;
             ctx.stroke();
 
+            const finalY = currentY;
+            const finalX = currentX;
+
             // Draw upper floor line - solid portion near stairs
             ctx.beginPath();
             ctx.moveTo(currentX, currentY);
@@ -985,35 +1159,59 @@
             ctx.stroke();
 
             // Dotted extension leftward to align with lower floor start (startX)
-            // This shows the 180° switchback returns above the starting point
             ctx.beginPath();
             ctx.setLineDash([3, 3]);
             ctx.moveTo(currentX, currentY);
-            ctx.lineTo(startX - 30, currentY); // Extend past lower floor start
+            ctx.lineTo(startX - 30, currentY);
             ctx.stroke();
             ctx.setLineDash([]);
 
             // Labels
-            ctx.font = 'italic 12px Georgia';
-            ctx.fillStyle = '#666666';
-            ctx.fillText('Lower Level', startX - 20, startY + 20);
-            ctx.fillText('Upper Level', startX - 20, currentY - 15); // Aligned with lower level label
+            ctx.font = 'italic 11px Georgia';
+            ctx.fillStyle = '#888888';
+            ctx.fillText('Lower', startX - 25, startY + 16);
+            ctx.fillText('Upper', startX - 25, finalY + 4);
 
             // Landing label (centered over 36" segment)
             const landingCenterX = landingStartX + (landingDepth * scale / 2);
-            ctx.font = 'bold 10px Inter, sans-serif';
+            ctx.font = 'bold 9px Inter, sans-serif';
             ctx.fillStyle = ACCENT_COLOR;
             ctx.textAlign = 'center';
-            ctx.fillText('LANDING', landingCenterX, landingY + 20);
+            ctx.fillText('LANDING', landingCenterX, landingY + 16);
             ctx.textAlign = 'left';
+
+            // === ARCHITECTURAL DIMENSIONS ===
+
+            const cfg = DimensionConfig;
+
+            // 1. Total Rise (vertical dimension on right side)
+            const totalRiseDimX = landingEndX + cfg.firstDimensionGap;
+            drawVerticalDimension(ctx, finalY, startY, landingEndX, totalRiseDimX, toFeetInches(totalHeight));
+
+            // 2. Flight 1 Run (horizontal dimension at bottom)
+            const flight1DimY = startY + cfg.firstDimensionGap;
+            drawHorizontalDimension(ctx, startX, landingStartX, startY, flight1DimY, toFeetInches(flight1Run));
+
+            // 3. Landing Depth (horizontal dimension, offset from flight 1)
+            const landingDimY = startY + cfg.firstDimensionGap + cfg.subsequentGap;
+            drawHorizontalDimension(ctx, landingStartX, landingEndX, startY, landingDimY, toFeetInches(landingDepth));
+
+            // 4. Representative Riser Height (first riser, left side)
+            const riserDimX = startX - cfg.firstDimensionGap;
+            drawVerticalDimension(ctx, firstRiserTopY, startY, startX, riserDimX, formatInches(riserHeight));
+
+            // 5. Representative Tread Depth (first tread)
+            const scaledRiserHeight = riserHeight * scale;
+            const treadDimY = firstRiserTopY + scaledRiserHeight + cfg.subsequentGap + 5;
+            drawHorizontalDimension(ctx, startX, firstTreadEndX, firstRiserTopY, treadDimY, formatInches(treadDepth));
         }
 
         function drawSwitchbackPlan(flight1Run, flight2Run, flight1Treads, flight2Treads, landingDepth, width) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            const padding = 60;
-            const drawWidth = canvas.width - (padding * 2);
-            const drawHeight = canvas.height - (padding * 2);
+            const padding = 80;
+            const drawWidth = canvas.width - (padding * 2) - 40;
+            const drawHeight = canvas.height - (padding * 2) - 40;
 
             // Total dimensions
             const totalLength = Math.max(flight1Run, flight2Run) + landingDepth;
@@ -1119,6 +1317,24 @@
             // Landing label
             ctx.fillText('LANDING', landingX + landingW / 2, landingY + landingH / 2 + 4);
             ctx.textAlign = 'left';
+
+            // === ARCHITECTURAL DIMENSIONS ===
+
+            const cfg = DimensionConfig;
+            const totalScaledWidth = totalWidth * scale;
+            const totalScaledLength = totalLength * scale;
+
+            // 1. Total Footprint Length (horizontal dimension at bottom)
+            const lengthDimY = startY + totalScaledWidth + cfg.firstDimensionGap;
+            drawHorizontalDimension(ctx, startX, startX + totalScaledLength, startY + totalScaledWidth, lengthDimY, toFeetInches(totalLength));
+
+            // 2. Total Footprint Width (vertical dimension on right side)
+            const widthDimX = startX + totalScaledLength + cfg.firstDimensionGap;
+            drawVerticalDimension(ctx, startY, startY + totalScaledWidth, startX + totalScaledLength, widthDimX, toFeetInches(totalWidth));
+
+            // 3. Landing Width dimension (smaller callout)
+            const landingWidthDimY = landingY - cfg.subsequentGap;
+            drawHorizontalDimension(ctx, landingX, landingX + landingW, landingY, landingWidthDimY, toFeetInches(landingDepth));
         }
 
         // Event Listeners
