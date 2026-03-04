@@ -198,6 +198,167 @@
     .irc-link .material-symbols-outlined {
       font-size: 1rem;
     }
+
+    /* Featured Tools Section */
+    .featured-section {
+      padding: 96px 0;
+      border-top: 1px solid rgba(44, 76, 59, 0.05);
+    }
+
+    .featured-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    .featured-header-text {
+      max-width: 36rem;
+    }
+
+    .featured-title {
+      font-family: var(--font-serif);
+      font-size: 1.875rem;
+      font-weight: 500;
+      margin: 0 0 var(--spacing-sm) 0;
+    }
+
+    .featured-subtitle {
+      color: var(--md-sys-color-on-surface-variant);
+      margin: 0;
+    }
+
+    .archive-link {
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--md-sys-color-primary);
+      text-decoration: underline;
+      text-underline-offset: 8px;
+    }
+
+    /* Tool Card */
+    .tool-card {
+      display: flex;
+      flex-direction: column;
+      background: white;
+      border: 1px solid rgba(44, 76, 59, 0.1);
+      border-radius: var(--md-sys-shape-corner-medium);
+      overflow: hidden;
+      box-shadow: 0 25px 50px -12px rgba(44, 76, 59, 0.05);
+    }
+
+    @media (min-width: 768px) {
+      .tool-card {
+        flex-direction: row;
+      }
+    }
+
+    .tool-card-image {
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .tool-card-image {
+        width: 50%;
+      }
+    }
+
+    .tool-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      aspect-ratio: 16 / 9;
+      transition: transform 0.7s ease;
+    }
+
+    @media (min-width: 768px) {
+      .tool-card-image img {
+        aspect-ratio: auto;
+        min-height: 100%;
+      }
+    }
+
+    .tool-card:hover .tool-card-image img {
+      transform: scale(1.05);
+    }
+
+    .tool-card-content {
+      padding: var(--spacing-xl);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    @media (min-width: 768px) {
+      .tool-card-content {
+        width: 50%;
+        padding: var(--spacing-2xl) var(--spacing-3xl);
+      }
+    }
+
+    .tool-label {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--md-sys-color-primary);
+      margin-bottom: var(--spacing-md);
+    }
+
+    .tool-label .material-symbols-outlined {
+      font-size: 1rem;
+    }
+
+    .tool-card-title {
+      font-family: var(--font-serif);
+      font-size: 2.25rem;
+      font-weight: 500;
+      margin: 0 0 var(--spacing-lg) 0;
+    }
+
+    .tool-card-tagline {
+      font-size: 1.125rem;
+      font-style: italic;
+      color: #5e8771;
+      margin: 0 0 var(--spacing-md) 0;
+      line-height: 1.6;
+    }
+
+    .tool-card-description {
+      color: var(--md-sys-color-on-surface-variant);
+      line-height: 1.6;
+      margin: 0 0 var(--spacing-xl) 0;
+    }
+
+    .tool-button {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      background-color: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
+      padding: 14px var(--spacing-xl);
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: padding-right 0.2s ease;
+      width: fit-content;
+    }
+
+    .tool-button:hover {
+      padding-right: 40px;
+    }
+
+    .tool-button span {
+      transition: transform 0.2s ease;
+    }
+
+    .tool-button:hover span {
+      transform: translateX(4px);
+    }
   </style>
 </head>
 <body>
@@ -225,6 +386,41 @@
     </div>
   </main>
 
+  <!-- Featured Tools Section -->
+  <section class="featured-section editorial-container">
+    <div class="featured-header">
+      <div class="featured-header-text">
+        <h2 class="featured-title">Featured Tools</h2>
+        <p class="featured-subtitle">Our most requested utilities, optimized for the International Residential Code.</p>
+      </div>
+      <a href="#" class="archive-link">View Archive</a>
+    </div>
+
+    <!-- Stair Calculator Card -->
+    <div class="tool-card">
+      <div class="tool-card-image">
+        <img
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0pycKBmoc1VKuOl7alXhtd6IFS8FASctggLpv6vA7OAooj2lgD-fPXah6b1ZyfI87VE-x5Bi4UzpPZKzSCO5c03S9a-wBXnnZGTlaYFX8LmkCrmj33VoUWWHpP7pEw5fHvsXA47sLSpObvwJxbIh7DxDBkebtHvNcLqnqgmKki24DuckbYjyMxWnoVDFhNgsvSFsK8pbiL9ktVovHmQR-FP9KEpkTEcexwrYRZ46lWxI1wJ3WRCOeV2R1aDdj2JXefuTjLT8A0Ss"
+          alt="Architectural stairs section"
+        >
+      </div>
+      <div class="tool-card-content">
+        <div class="tool-label">
+          <span class="material-symbols-outlined">architecture</span>
+          Compliance Engine
+        </div>
+        <h3 class="tool-card-title">Stair Calculator</h3>
+        <p class="tool-card-tagline">Calculates residential stair dimensions based on IRC code.</p>
+        <p class="tool-card-description">
+          Ensure compliance and precision with our intuitive calculation engine. Input your total rise and let our algorithms handle the rest, from riser height to tread depth and minimum headroom.
+        </p>
+        <a href="stairs.html" class="tool-button">
+          Open Tool <span>→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- IRC Compliant Section -->
   <section class="irc-section">
     <div class="editorial-container">
@@ -236,7 +432,7 @@
         <p class="irc-description">
           Always up to date with the latest residential codes. Our logic is peer-reviewed and tested against multi-state interpretations.
         </p>
-        <a href="stairs.html" class="irc-link">
+        <a href="https://codes.iccsafe.org/content/IRC2021P2/chapter-3-building-planning#IRC2021P2_Pt03_Ch03_SecR311.7" target="_blank" rel="noopener" class="irc-link">
           View IRC Code
           <span class="material-symbols-outlined">arrow_forward</span>
         </a>
