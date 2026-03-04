@@ -5,94 +5,141 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Residential Stair Calculator (IRC)</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            background-color: #faf9f6;
+            color: #1a1a1a;
             display: flex;
             justify-content: center;
             padding: 40px;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            max-width: 1100px;
+            width: 100%;
         }
 
         .card {
             background: white;
-            padding: 30px;
+            padding: 24px;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            max-width: 900px;
-            width: 100%;
+            border: 1px solid #e5e5e5;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
             display: flex;
             flex-wrap: wrap;
-            gap: 30px;
+            gap: 32px;
+        }
+
+        @media (min-width: 768px) {
+            .card {
+                padding: 32px;
+                gap: 48px;
+            }
         }
 
         .controls {
             flex: 1;
-            min-width: 280px;
+            min-width: 320px;
         }
 
         .visuals {
-            flex: 2;
+            flex: 1.5;
             min-width: 300px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
         }
 
         h2 {
-            margin-top: 0;
-            color: #2c3e50;
+            margin: 0 0 24px 0;
+            color: #0f172a;
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: Georgia, 'Times New Roman', Times, serif;
+        }
+
+        h2 svg {
+            color: #004225;
         }
 
         label {
-            font-weight: bold;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            font-size: 0.875rem;
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            color: #334155;
         }
 
         input[type="number"] {
             width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            box-sizing: border-box;
+            height: 44px;
+            padding: 0 40px 0 16px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            border: 1px solid #d1d1d1;
+            border-radius: 8px;
+            background-color: #f8fafc;
+            transition: all 0.2s ease;
+        }
+
+        input[type="number"]:focus {
+            border-color: #004225;
+            box-shadow: 0 0 0 1px #004225;
+            outline: none;
         }
 
         /* Stair Type Selector */
         .type-selector {
-            margin-bottom: 20px;
-        }
-
-        .type-selector label {
-            font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 24px;
         }
 
         .type-options {
-            display: flex;
-            gap: 10px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
         }
 
         .type-option {
-            flex: 1;
             padding: 12px;
-            border: 2px solid #ddd;
+            border: 2px solid #e5e5e5;
             border-radius: 8px;
             cursor: pointer;
             text-align: center;
             transition: all 0.2s ease;
+            background-color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .type-option:hover {
-            border-color: #2980b9;
+            border-color: #004225;
         }
 
         .type-option.selected {
-            border-color: #2980b9;
-            background-color: #ebf5fb;
+            border-color: #004225;
+            background-color: #004225;
+            color: #ffffff;
         }
 
         .type-option input {
@@ -100,66 +147,151 @@
         }
 
         .type-option-label {
-            font-weight: 600;
-            font-size: 14px;
+            font-weight: 700;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
         }
 
         .type-option-desc {
-            font-size: 11px;
-            color: #7f8c8d;
+            font-size: 0.625rem;
+            color: #64748b;
             margin-top: 4px;
         }
 
+        .type-option.selected .type-option-desc {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* View Selector */
+        .view-selector {
+            margin-bottom: 24px;
+        }
+
+        .view-options {
+            display: flex;
+            gap: 8px;
+        }
+
+        .view-option {
+            flex: 1;
+            padding: 8px 16px;
+            border: 1px solid #e5e5e5;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-align: center;
+            transition: all 0.2s ease;
+            background-color: #ffffff;
+            user-select: none;
+        }
+
+        .view-option:hover {
+            border-color: #004225;
+        }
+
+        .view-option.selected {
+            border-color: #004225;
+            background-color: #004225;
+            color: #ffffff;
+        }
+
+        .view-option input {
+            display: none;
+        }
+
+        /* Input Group with Unit Suffix */
+        .input-group {
+            position: relative;
+        }
+
+        .input-suffix {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #94a3b8;
+            pointer-events: none;
+        }
+
+        .input-row {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        @media (min-width: 480px) {
+            .input-row {
+                flex-direction: row;
+            }
+
+            .input-row .input-group {
+                flex: 1;
+            }
+        }
+
+        /* Results Panel */
         .results {
-            background: #eef2f5;
-            padding: 15px;
-            border-radius: 8px;
+            background-color: #fcfcfc;
+            border: 1px solid #e5e5e5;
+            padding: 20px;
+            border-radius: 12px;
         }
 
         .results-section {
-            margin-bottom: 15px;
+            padding-bottom: 12px;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #eeeeee;
         }
 
         .results-section:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
             margin-bottom: 0;
         }
 
         .results-section-title {
-            font-size: 11px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.65rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #7f8c8d;
+            letter-spacing: 0.1em;
+            color: #888888;
             margin-bottom: 8px;
-            padding-bottom: 4px;
-            border-bottom: 1px solid #ddd;
         }
 
         .result-item {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        .result-item:last-child {
-            margin-bottom: 0;
+            font-size: 0.9rem;
+            line-height: 1.6;
         }
 
         .result-label {
-            color: #555;
+            color: #444444;
+            font-family: Georgia, 'Times New Roman', Times, serif;
         }
 
         .result-value {
-            font-weight: bold;
-            color: #2980b9;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            color: #004225;
             text-align: right;
         }
 
         .result-value .secondary {
-            font-weight: normal;
-            color: #7f8c8d;
-            font-size: 12px;
+            font-weight: 400;
+            color: #999999;
+            font-size: 0.75rem;
+            margin-left: 4px;
         }
 
         .switchback-results {
@@ -170,150 +302,178 @@
             display: block;
         }
 
-        canvas {
-            background: #fafafa;
-            border: 1px solid #eee;
-            border-radius: 8px;
+        /* Canvas */
+        .canvas-container {
             width: 100%;
-            max-width: 500px;
-        }
-
-        .note {
-            font-size: 12px;
-            color: #7f8c8d;
-            margin-top: 15px;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        .input-row {
+            background-color: #f8fafc;
+            border-radius: 12px;
+            padding: 16px;
             display: flex;
-            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
         }
 
-        .input-row .input-group {
-            flex: 1;
-            margin-bottom: 0;
+        canvas {
+            background: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            max-width: 100%;
+            height: auto;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Note */
+        .note {
+            font-size: 0.625rem;
+            line-height: 1.6;
+            color: #94a3b8;
+            font-style: italic;
+            font-weight: 500;
+            margin-top: 24px;
         }
     </style>
 </head>
 
 <body>
+    <div class="app-container">
+        <div class="card">
+            <div class="controls">
+                <h2>
+                    <svg class="w-6 h-6" width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path>
+                    </svg>
+                    Stair Calculator V2
+                </h2>
 
-    <div class="card">
-        <div class="controls">
-            <h2>Stair Calculator V2</h2>
-
-            <!-- Stair Type Selector -->
-            <div class="type-selector">
-                <label>Stair Type:</label>
-                <div class="type-options">
-                    <label class="type-option selected" id="opt-single">
-                        <input type="radio" name="stairType" value="single" checked>
-                        <div class="type-option-label">Single-Run</div>
-                        <div class="type-option-desc">Straight flight</div>
-                    </label>
-                    <label class="type-option" id="opt-switchback">
-                        <input type="radio" name="stairType" value="switchback">
-                        <div class="type-option-label">Switchback</div>
-                        <div class="type-option-desc">U-shape with landing</div>
-                    </label>
+                <!-- Stair Type Selector -->
+                <div class="type-selector">
+                    <label>Stair Geometry</label>
+                    <div class="type-options">
+                        <label class="type-option selected" id="opt-single">
+                            <input type="radio" name="stairType" value="single" checked>
+                            <div class="type-option-label">Single-Run</div>
+                            <div class="type-option-desc">Linear path</div>
+                        </label>
+                        <label class="type-option" id="opt-switchback">
+                            <input type="radio" name="stairType" value="switchback">
+                            <div class="type-option-label">Switchback</div>
+                            <div class="type-option-desc">U-Shape + Landing</div>
+                        </label>
+                    </div>
                 </div>
+
+                <!-- View Selector -->
+                <div class="view-selector">
+                    <label>Visual Projection</label>
+                    <div class="view-options">
+                        <label class="view-option selected" id="opt-section">
+                            <input type="radio" name="viewType" value="section" checked>
+                            <span>Section View</span>
+                        </label>
+                        <label class="view-option" id="opt-plan">
+                            <input type="radio" name="viewType" value="plan">
+                            <span>Plan View</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Inputs -->
+                <div class="input-row">
+                    <div class="input-group">
+                        <label for="heightInput">Rise (Floor-to-Floor)</label>
+                        <input type="number" id="heightInput" value="108" min="40" max="200" step="1">
+                        <span class="input-suffix">IN</span>
+                    </div>
+                    <div class="input-group">
+                        <label for="widthInput">Flight Width</label>
+                        <input type="number" id="widthInput" value="36" min="36" max="48" step="1">
+                        <span class="input-suffix">IN</span>
+                    </div>
+                </div>
+
+                <!-- Results -->
+                <div class="results">
+                    <!-- Common Results -->
+                    <div class="results-section">
+                        <div class="results-section-title">Common Dimensions</div>
+                        <div class="result-item">
+                            <span class="result-label">Total Risers:</span>
+                            <span id="outRisers" class="result-value">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Individual Riser:</span>
+                            <span id="outRiserHeight" class="result-value">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Tread Count:</span>
+                            <span id="outTreads" class="result-value">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Single-Run Results -->
+                    <div class="results-section single-results">
+                        <div class="results-section-title">Spatial Footprint</div>
+                        <div class="result-item">
+                            <span class="result-label">Total Run Length:</span>
+                            <span id="outRun" class="result-value">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Clearance Required:</span>
+                            <span id="outFootprintSingle" class="result-value">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Switchback Results -->
+                    <div class="results-section switchback-results">
+                        <div class="results-section-title">Lower Flight (1)</div>
+                        <div class="result-item">
+                            <span class="result-label">Risers:</span>
+                            <span id="outFlight1Risers" class="result-value">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Horizontal Run:</span>
+                            <span id="outFlight1Run" class="result-value">-</span>
+                        </div>
+                    </div>
+
+                    <div class="results-section switchback-results">
+                        <div class="results-section-title">Intermediate Landing</div>
+                        <div class="result-item">
+                            <span class="result-label">Dimensions:</span>
+                            <span id="outLanding" class="result-value">-</span>
+                        </div>
+                    </div>
+
+                    <div class="results-section switchback-results">
+                        <div class="results-section-title">Upper Flight (2)</div>
+                        <div class="result-item">
+                            <span class="result-label">Risers:</span>
+                            <span id="outFlight2Risers" class="result-value">-</span>
+                        </div>
+                        <div class="result-item">
+                            <span class="result-label">Horizontal Run:</span>
+                            <span id="outFlight2Run" class="result-value">-</span>
+                        </div>
+                    </div>
+
+                    <div class="results-section switchback-results">
+                        <div class="results-section-title">Total Assembly Footprint</div>
+                        <div class="result-item">
+                            <span class="result-label">Total Footprint:</span>
+                            <span id="outFootprintSwitchback" class="result-value">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="note">* Engineering specs derived from IRC R311.7: max riser 7.75", min tread 10", min landing 36" × 36". Not for construction without professional review.</p>
             </div>
 
-            <!-- Inputs -->
-            <div class="input-row">
-                <div class="input-group">
-                    <label for="heightInput">Floor-to-Floor Height:</label>
-                    <input type="number" id="heightInput" value="108" min="40" max="200" step="1" placeholder="inches">
-                </div>
-                <div class="input-group">
-                    <label for="widthInput">Stair Width:</label>
-                    <input type="number" id="widthInput" value="36" min="36" max="48" step="1" placeholder="inches">
+            <div class="visuals">
+                <div class="canvas-container">
+                    <canvas id="stairCanvas" width="600" height="500"></canvas>
                 </div>
             </div>
-
-            <!-- Results -->
-            <div class="results">
-                <!-- Common Results -->
-                <div class="results-section">
-                    <div class="results-section-title">Dimensions</div>
-                    <div class="result-item">
-                        <span class="result-label">Total Risers:</span>
-                        <span id="outRisers" class="result-value">-</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Riser Height:</span>
-                        <span id="outRiserHeight" class="result-value">-</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Total Treads:</span>
-                        <span id="outTreads" class="result-value">-</span>
-                    </div>
-                </div>
-
-                <!-- Single-Run Results -->
-                <div class="results-section single-results">
-                    <div class="results-section-title">Footprint</div>
-                    <div class="result-item">
-                        <span class="result-label">Total Run:</span>
-                        <span id="outRun" class="result-value">-</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Footprint:</span>
-                        <span id="outFootprintSingle" class="result-value">-</span>
-                    </div>
-                </div>
-
-                <!-- Switchback Results -->
-                <div class="results-section switchback-results">
-                    <div class="results-section-title">Flight 1 (Lower)</div>
-                    <div class="result-item">
-                        <span class="result-label">Risers:</span>
-                        <span id="outFlight1Risers" class="result-value">-</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Run:</span>
-                        <span id="outFlight1Run" class="result-value">-</span>
-                    </div>
-                </div>
-
-                <div class="results-section switchback-results">
-                    <div class="results-section-title">Landing</div>
-                    <div class="result-item">
-                        <span class="result-label">Dimensions:</span>
-                        <span id="outLanding" class="result-value">-</span>
-                    </div>
-                </div>
-
-                <div class="results-section switchback-results">
-                    <div class="results-section-title">Flight 2 (Upper)</div>
-                    <div class="result-item">
-                        <span class="result-label">Risers:</span>
-                        <span id="outFlight2Risers" class="result-value">-</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="result-label">Run:</span>
-                        <span id="outFlight2Run" class="result-value">-</span>
-                    </div>
-                </div>
-
-                <div class="results-section switchback-results">
-                    <div class="results-section-title">Total Footprint</div>
-                    <div class="result-item">
-                        <span class="result-label">Footprint:</span>
-                        <span id="outFootprintSwitchback" class="result-value">-</span>
-                    </div>
-                </div>
-            </div>
-
-            <p class="note">*Calculations based on IRC R311.7: max riser 7.75", min tread 10", min landing 36" × 36".</p>
-        </div>
-
-        <div class="visuals">
-            <canvas id="stairCanvas" width="500" height="400"></canvas>
         </div>
     </div>
 
@@ -343,8 +503,18 @@
         const singleResults = document.querySelector('.single-results');
         const switchbackResults = document.querySelectorAll('.switchback-results');
 
+        // View selector elements
+        const optSection = document.getElementById('opt-section');
+        const optPlan = document.getElementById('opt-plan');
+
         // State
         let stairType = 'single';
+        let viewType = 'section';
+
+        // Color constants
+        const ACCENT_COLOR = '#004225';
+        const CHARCOAL = '#1a1a1a';
+        const LIGHT_GREY = '#d1d1d1';
 
         // Helper: Convert inches to feet-inches string
         function toFeetInches(inches) {
@@ -423,6 +593,21 @@
             calculateAndDraw();
         });
 
+        // View toggle handlers
+        optSection.addEventListener('click', () => {
+            viewType = 'section';
+            optSection.classList.add('selected');
+            optPlan.classList.remove('selected');
+            calculateAndDraw();
+        });
+
+        optPlan.addEventListener('click', () => {
+            viewType = 'plan';
+            optPlan.classList.add('selected');
+            optSection.classList.remove('selected');
+            calculateAndDraw();
+        });
+
         function calculateAndDraw() {
             const height = parseFloat(heightInput.value);
             const width = parseFloat(widthInput.value);
@@ -454,8 +639,12 @@
             outRun.innerHTML = formatDual(totalRun);
             outFootprintSingle.innerHTML = `${toFeetInches(totalRun)} × ${toFeetInches(width)}`;
 
-            // Draw side-view diagram
-            drawSingleRun(totalRisers, totalTreads, riserHeight, treadDepth, height);
+            // Draw based on view type
+            if (viewType === 'section') {
+                drawSingleRunSection(totalRisers, totalTreads, riserHeight, treadDepth, height);
+            } else {
+                drawSingleRunPlan(totalTreads, treadDepth, width, totalRun);
+            }
         }
 
         function calculateSwitchback(totalRisers, totalTreads, riserHeight, treadDepth, width, height) {
@@ -468,8 +657,6 @@
             const flight2Risers = totalRisers - flight1Risers;
 
             // Calculate treads per flight
-            // Flight 1: risers - 1 (landing is top)
-            // Flight 2: risers - 1 (upper floor is top)
             const flight1Treads = flight1Risers - 1;
             const flight2Treads = flight2Risers - 1;
 
@@ -477,8 +664,6 @@
             const flight2Run = flight2Treads * treadDepth;
 
             // Total footprint for U-shaped switchback
-            // Length = max run + landing depth
-            // Width = 2 × stair width (two parallel flights)
             const footprintLength = Math.max(flight1Run, flight2Run) + landingDepth;
             const footprintWidth = width * 2;
 
@@ -490,15 +675,19 @@
             outLanding.innerHTML = `${toFeetInches(landingWidth)} × ${toFeetInches(landingDepth)}`;
             outFootprintSwitchback.innerHTML = `${toFeetInches(footprintLength)} × ${toFeetInches(footprintWidth)}`;
 
-            // Draw top-down plan view
-            drawSwitchback(flight1Run, flight2Run, landingDepth, width);
+            // Draw based on view type
+            if (viewType === 'section') {
+                drawSwitchbackSection(flight1Risers, flight2Risers, riserHeight, treadDepth, landingDepth, width, height);
+            } else {
+                drawSwitchbackPlan(flight1Run, flight2Run, flight1Treads, flight2Treads, landingDepth, width);
+            }
         }
 
-        function drawSingleRun(totalRisers, totalTreads, riserHeight, treadDepth, height) {
+        function drawSingleRunSection(totalRisers, totalTreads, riserHeight, treadDepth, height) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             const totalRun = totalTreads * treadDepth;
-            const padding = 40;
+            const padding = 60;
             const drawWidth = canvas.width - (padding * 2);
             const drawHeight = canvas.height - (padding * 2);
 
@@ -529,31 +718,193 @@
                 }
             }
 
-            ctx.strokeStyle = '#2c3e50';
-            ctx.lineWidth = 3;
+            ctx.strokeStyle = CHARCOAL;
+            ctx.lineWidth = 2.5;
             ctx.stroke();
 
             // Draw Floors
             ctx.beginPath();
-            ctx.moveTo(startX - 20, startY);
-            ctx.lineTo(startX + 20, startY);
-            ctx.moveTo(currentX - 20, currentY);
-            ctx.lineTo(currentX + 40, currentY);
-            ctx.strokeStyle = '#7f8c8d';
-            ctx.lineWidth = 4;
+            ctx.moveTo(startX - 30, startY);
+            ctx.lineTo(startX + 30, startY);
+            ctx.moveTo(currentX - 30, currentY);
+            ctx.lineTo(currentX + 60, currentY);
+            ctx.strokeStyle = LIGHT_GREY;
+            ctx.lineWidth = 1.5;
             ctx.stroke();
 
             // Labels
-            ctx.font = '12px -apple-system, sans-serif';
-            ctx.fillStyle = '#7f8c8d';
-            ctx.fillText('Lower Floor', startX - 20, startY + 20);
-            ctx.fillText('Upper Floor', currentX - 20, currentY - 10);
+            ctx.font = 'italic 12px Georgia';
+            ctx.fillStyle = '#666666';
+            ctx.fillText('Lower Level', startX - 20, startY + 20);
+            ctx.fillText('Upper Level', currentX - 20, currentY - 15);
         }
 
-        function drawSwitchback(flight1Run, flight2Run, landingDepth, width) {
+        function drawSingleRunPlan(totalTreads, treadDepth, width, totalRun) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            const padding = 50;
+            const padding = 60;
+            const drawWidth = canvas.width - (padding * 2);
+            const drawHeight = canvas.height - (padding * 2);
+
+            // Scale to fit
+            const scale = Math.min(drawWidth / totalRun, drawHeight / width);
+
+            const stairWidth = totalRun * scale;
+            const stairHeight = width * scale;
+
+            // Center the drawing
+            const startX = (canvas.width - stairWidth) / 2;
+            const startY = (canvas.height - stairHeight) / 2;
+
+            // Draw outer rectangle
+            ctx.fillStyle = '#fcfcfc';
+            ctx.fillRect(startX, startY, stairWidth, stairHeight);
+            ctx.strokeStyle = ACCENT_COLOR;
+            ctx.lineWidth = 2;
+            ctx.strokeRect(startX, startY, stairWidth, stairHeight);
+
+            // Draw tread lines
+            const treadW = stairWidth / totalTreads;
+            ctx.beginPath();
+            for (let i = 1; i < totalTreads; i++) {
+                const x = startX + (i * treadW);
+                ctx.moveTo(x, startY);
+                ctx.lineTo(x, startY + stairHeight);
+            }
+            ctx.strokeStyle = '#eeeeee';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            // Direction arrow
+            ctx.beginPath();
+            const arrowY = startY + stairHeight / 2;
+            ctx.moveTo(startX + 20, arrowY);
+            ctx.lineTo(startX + stairWidth - 20, arrowY);
+            ctx.lineTo(startX + stairWidth - 35, arrowY - 6);
+            ctx.moveTo(startX + stairWidth - 20, arrowY);
+            ctx.lineTo(startX + stairWidth - 35, arrowY + 6);
+            ctx.strokeStyle = ACCENT_COLOR;
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // UP label
+            ctx.font = 'bold 11px Inter, sans-serif';
+            ctx.fillStyle = ACCENT_COLOR;
+            ctx.textAlign = 'center';
+            ctx.fillText('UP', startX + stairWidth / 2, arrowY - 10);
+            ctx.textAlign = 'left';
+        }
+
+        function drawSwitchbackSection(flight1Risers, flight2Risers, riserHeight, treadDepth, landingDepth, width, totalHeight) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const padding = 60;
+            const drawWidth = canvas.width - (padding * 2);
+            const drawHeight = canvas.height - (padding * 2);
+
+            // Calculate dimensions
+            const flight1Treads = flight1Risers - 1;
+            const flight2Treads = flight2Risers - 1;
+            const flight1Run = flight1Treads * treadDepth;
+            const flight2Run = flight2Treads * treadDepth;
+            const flight1Height = flight1Risers * riserHeight;
+            const flight2Height = flight2Risers * riserHeight;
+
+            // Total horizontal span
+            const totalRun = flight1Run + landingDepth + flight2Run;
+
+            // Scale to fit
+            const scaleX = drawWidth / totalRun;
+            const scaleY = drawHeight / totalHeight;
+            const scale = Math.min(scaleX, scaleY);
+
+            // Starting position (bottom left)
+            const startX = padding;
+            const startY = canvas.height - padding;
+
+            // Draw Flight 1 (going up-right)
+            ctx.beginPath();
+            ctx.moveTo(startX, startY);
+
+            let currentX = startX;
+            let currentY = startY;
+
+            for (let i = 0; i < flight1Risers; i++) {
+                // Riser (up)
+                currentY -= riserHeight * scale;
+                ctx.lineTo(currentX, currentY);
+
+                // Tread (right), except after last riser
+                if (i < flight1Treads) {
+                    currentX += treadDepth * scale;
+                    ctx.lineTo(currentX, currentY);
+                }
+            }
+
+            ctx.strokeStyle = CHARCOAL;
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+
+            // Draw Landing (horizontal platform)
+            const landingStartX = currentX;
+            const landingY = currentY;
+            currentX += landingDepth * scale;
+
+            ctx.beginPath();
+            ctx.moveTo(landingStartX, landingY);
+            ctx.lineTo(currentX, landingY);
+            ctx.strokeStyle = ACCENT_COLOR;
+            ctx.lineWidth = 4;
+            ctx.stroke();
+
+            // Draw Flight 2 (going up-right from landing)
+            ctx.beginPath();
+            ctx.moveTo(currentX, currentY);
+
+            for (let i = 0; i < flight2Risers; i++) {
+                // Riser (up)
+                currentY -= riserHeight * scale;
+                ctx.lineTo(currentX, currentY);
+
+                // Tread (right), except after last riser
+                if (i < flight2Treads) {
+                    currentX += treadDepth * scale;
+                    ctx.lineTo(currentX, currentY);
+                }
+            }
+
+            ctx.strokeStyle = CHARCOAL;
+            ctx.lineWidth = 2.5;
+            ctx.stroke();
+
+            // Draw Floor Lines
+            ctx.beginPath();
+            ctx.moveTo(startX - 20, startY);
+            ctx.lineTo(startX + 30, startY);
+            ctx.moveTo(currentX - 30, currentY);
+            ctx.lineTo(currentX + 20, currentY);
+            ctx.strokeStyle = LIGHT_GREY;
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // Labels
+            ctx.font = 'italic 12px Georgia';
+            ctx.fillStyle = '#666666';
+            ctx.fillText('Lower Level', startX - 20, startY + 20);
+            ctx.fillText('Upper Level', currentX - 30, currentY - 15);
+
+            // Landing label
+            ctx.font = 'bold 10px Inter, sans-serif';
+            ctx.fillStyle = ACCENT_COLOR;
+            ctx.textAlign = 'center';
+            ctx.fillText('LANDING', landingStartX + (landingDepth * scale) / 2, landingY + 20);
+            ctx.textAlign = 'left';
+        }
+
+        function drawSwitchbackPlan(flight1Run, flight2Run, flight1Treads, flight2Treads, landingDepth, width) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const padding = 60;
             const drawWidth = canvas.width - (padding * 2);
             const drawHeight = canvas.height - (padding * 2);
 
@@ -571,22 +922,23 @@
             const f1Width = width * scale;
             const f1Length = flight1Run * scale;
 
-            ctx.fillStyle = '#e8f4f8';
+            ctx.fillStyle = '#fcfcfc';
             ctx.fillRect(startX, startY + f1Width, f1Length, f1Width);
-            ctx.strokeStyle = '#2980b9';
-            ctx.lineWidth = 2;
+            ctx.strokeStyle = ACCENT_COLOR;
+            ctx.lineWidth = 1.5;
             ctx.strokeRect(startX, startY + f1Width, f1Length, f1Width);
 
-            // Arrow for Flight 1 direction
-            ctx.beginPath();
-            ctx.moveTo(startX + 20, startY + f1Width + f1Width / 2);
-            ctx.lineTo(startX + f1Length - 20, startY + f1Width + f1Width / 2);
-            ctx.lineTo(startX + f1Length - 30, startY + f1Width + f1Width / 2 - 8);
-            ctx.moveTo(startX + f1Length - 20, startY + f1Width + f1Width / 2);
-            ctx.lineTo(startX + f1Length - 30, startY + f1Width + f1Width / 2 + 8);
-            ctx.strokeStyle = '#2980b9';
-            ctx.lineWidth = 2;
-            ctx.stroke();
+            // Tread lines for Flight 1
+            const tread1Width = f1Length / flight1Treads;
+            ctx.strokeStyle = ACCENT_COLOR;
+            ctx.lineWidth = 1;
+            for (let i = 1; i < flight1Treads; i++) {
+                const x = startX + (i * tread1Width);
+                ctx.beginPath();
+                ctx.moveTo(x, startY + f1Width);
+                ctx.lineTo(x, startY + f1Width * 2);
+                ctx.stroke();
+            }
 
             // Landing (top right corner)
             const landingX = startX + Math.max(flight1Run, flight2Run) * scale;
@@ -594,62 +946,40 @@
             const landingW = landingDepth * scale;
             const landingH = totalWidth * scale;
 
-            ctx.fillStyle = '#fef9e7';
+            ctx.fillStyle = '#f9f9f9';
             ctx.fillRect(landingX, landingY, landingW, landingH);
-            ctx.strokeStyle = '#f39c12';
-            ctx.lineWidth = 2;
+            ctx.strokeStyle = ACCENT_COLOR;
+            ctx.lineWidth = 1.5;
             ctx.strokeRect(landingX, landingY, landingW, landingH);
 
             // Flight 2 (right side, going up from landing)
             const f2Length = flight2Run * scale;
 
-            ctx.fillStyle = '#e8f4f8';
-            ctx.fillRect(startX + (Math.max(flight1Run, flight2Run) - flight2Run) * scale, startY, f2Length, f1Width);
-            ctx.strokeStyle = '#2980b9';
-            ctx.lineWidth = 2;
-            ctx.strokeRect(startX + (Math.max(flight1Run, flight2Run) - flight2Run) * scale, startY, f2Length, f1Width);
-
-            // Arrow for Flight 2 direction (opposite)
             const f2StartX = startX + (Math.max(flight1Run, flight2Run) - flight2Run) * scale;
-            ctx.beginPath();
-            ctx.moveTo(f2StartX + f2Length - 20, startY + f1Width / 2);
-            ctx.lineTo(f2StartX + 20, startY + f1Width / 2);
-            ctx.lineTo(f2StartX + 30, startY + f1Width / 2 - 8);
-            ctx.moveTo(f2StartX + 20, startY + f1Width / 2);
-            ctx.lineTo(f2StartX + 30, startY + f1Width / 2 + 8);
-            ctx.strokeStyle = '#2980b9';
-            ctx.lineWidth = 2;
-            ctx.stroke();
+            ctx.fillStyle = '#fcfcfc';
+            ctx.fillRect(f2StartX, startY, f2Length, f1Width);
+            ctx.strokeStyle = ACCENT_COLOR;
+            ctx.lineWidth = 1.5;
+            ctx.strokeRect(f2StartX, startY, f2Length, f1Width);
 
-            // Labels
-            ctx.font = 'bold 11px -apple-system, sans-serif';
-            ctx.fillStyle = '#2980b9';
-            ctx.fillText('FLIGHT 1', startX + 10, startY + f1Width + f1Width / 2 + 25);
-            ctx.fillText('FLIGHT 2', f2StartX + 10, startY + f1Width / 2 + 25);
+            // Tread lines for Flight 2
+            const tread2Width = f2Length / flight2Treads;
+            ctx.strokeStyle = ACCENT_COLOR;
+            ctx.lineWidth = 1;
+            for (let i = 1; i < flight2Treads; i++) {
+                const x = f2StartX + (i * tread2Width);
+                ctx.beginPath();
+                ctx.moveTo(x, startY);
+                ctx.lineTo(x, startY + f1Width);
+                ctx.stroke();
+            }
 
-            ctx.fillStyle = '#f39c12';
-            ctx.fillText('LANDING', landingX + 5, landingY + landingH / 2);
-
-            // Dimension labels
-            ctx.font = '10px -apple-system, sans-serif';
-            ctx.fillStyle = '#7f8c8d';
-            ctx.fillText(`${toFeetInches(flight1Run)}`, startX + f1Length / 2 - 15, startY + f1Width * 2 + 15);
-            ctx.fillText(`${toFeetInches(flight2Run)}`, f2StartX + f2Length / 2 - 15, startY - 8);
-            ctx.fillText(`${toFeetInches(landingDepth)}`, landingX + landingW / 2 - 10, landingY + landingH + 15);
-
-            // Start/End markers
-            ctx.fillStyle = '#27ae60';
-            ctx.beginPath();
-            ctx.arc(startX + 10, startY + f1Width + f1Width / 2, 6, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.font = '10px -apple-system, sans-serif';
-            ctx.fillText('START', startX, startY + f1Width * 2 + 30);
-
-            ctx.fillStyle = '#e74c3c';
-            ctx.beginPath();
-            ctx.arc(f2StartX + 10, startY + f1Width / 2, 6, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.fillText('END', f2StartX, startY - 15);
+            // Landing label
+            ctx.font = 'bold 10px Inter, sans-serif';
+            ctx.fillStyle = ACCENT_COLOR;
+            ctx.textAlign = 'center';
+            ctx.fillText('LANDING', landingX + landingW / 2, landingY + landingH / 2 + 4);
+            ctx.textAlign = 'left';
         }
 
         // Event Listeners
