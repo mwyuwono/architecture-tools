@@ -20,7 +20,7 @@
             padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
             display: flex;
             flex-wrap: wrap;
@@ -29,7 +29,7 @@
 
         .controls {
             flex: 1;
-            min-width: 250px;
+            min-width: 280px;
         }
 
         .visuals {
@@ -61,30 +61,113 @@
             box-sizing: border-box;
         }
 
+        /* Stair Type Selector */
+        .type-selector {
+            margin-bottom: 20px;
+        }
+
+        .type-selector label {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .type-options {
+            display: flex;
+            gap: 10px;
+        }
+
+        .type-option {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+
+        .type-option:hover {
+            border-color: #2980b9;
+        }
+
+        .type-option.selected {
+            border-color: #2980b9;
+            background-color: #ebf5fb;
+        }
+
+        .type-option input {
+            display: none;
+        }
+
+        .type-option-label {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .type-option-desc {
+            font-size: 11px;
+            color: #7f8c8d;
+            margin-top: 4px;
+        }
+
         .results {
             background: #eef2f5;
             padding: 15px;
             border-radius: 8px;
         }
 
+        .results-section {
+            margin-bottom: 15px;
+        }
+
+        .results-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .results-section-title {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #7f8c8d;
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #ddd;
+        }
+
         .result-item {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 16px;
-            border-bottom: 1px solid #ddd;
-            padding-bottom: 5px;
+            margin-bottom: 8px;
+            font-size: 14px;
         }
 
         .result-item:last-child {
-            border-bottom: none;
             margin-bottom: 0;
-            padding-bottom: 0;
         }
 
-        .highlight {
+        .result-label {
+            color: #555;
+        }
+
+        .result-value {
             font-weight: bold;
             color: #2980b9;
+            text-align: right;
+        }
+
+        .result-value .secondary {
+            font-weight: normal;
+            color: #7f8c8d;
+            font-size: 12px;
+        }
+
+        .switchback-results {
+            display: none;
+        }
+
+        .switchback-results.visible {
+            display: block;
         }
 
         canvas {
@@ -94,6 +177,26 @@
             width: 100%;
             max-width: 500px;
         }
+
+        .note {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-top: 15px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .input-row .input-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
     </style>
 </head>
 
@@ -101,21 +204,112 @@
 
     <div class="card">
         <div class="controls">
-            <h2>Stair Calculator V1</h2>
-            <label for="heightInput">Floor-to-Floor Height (inches):</label>
-            <input type="number" id="heightInput" value="108" min="40" max="200" step="1">
+            <h2>Stair Calculator V2</h2>
 
-            <div class="results">
-                <div class="result-item"><span>Total Risers:</span> <span id="outRisers" class="highlight">-</span>
+            <!-- Stair Type Selector -->
+            <div class="type-selector">
+                <label>Stair Type:</label>
+                <div class="type-options">
+                    <label class="type-option selected" id="opt-single">
+                        <input type="radio" name="stairType" value="single" checked>
+                        <div class="type-option-label">Single-Run</div>
+                        <div class="type-option-desc">Straight flight</div>
+                    </label>
+                    <label class="type-option" id="opt-switchback">
+                        <input type="radio" name="stairType" value="switchback">
+                        <div class="type-option-label">Switchback</div>
+                        <div class="type-option-desc">U-shape with landing</div>
+                    </label>
                 </div>
-                <div class="result-item"><span>Riser Height:</span> <span id="outRiserHeight" class="highlight">-</span>
-                </div>
-                <div class="result-item"><span>Total Treads:</span> <span id="outTreads" class="highlight">-</span>
-                </div>
-                <div class="result-item"><span>Total Run:</span> <span id="outRun" class="highlight">-</span></div>
             </div>
-            <p style="font-size: 12px; color: #7f8c8d; margin-top: 15px;">*Calculations based on IRC maximum riser
-                (7.75") and minimum tread (10").</p>
+
+            <!-- Inputs -->
+            <div class="input-row">
+                <div class="input-group">
+                    <label for="heightInput">Floor-to-Floor Height:</label>
+                    <input type="number" id="heightInput" value="108" min="40" max="200" step="1" placeholder="inches">
+                </div>
+                <div class="input-group">
+                    <label for="widthInput">Stair Width:</label>
+                    <input type="number" id="widthInput" value="36" min="36" max="48" step="1" placeholder="inches">
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div class="results">
+                <!-- Common Results -->
+                <div class="results-section">
+                    <div class="results-section-title">Dimensions</div>
+                    <div class="result-item">
+                        <span class="result-label">Total Risers:</span>
+                        <span id="outRisers" class="result-value">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Riser Height:</span>
+                        <span id="outRiserHeight" class="result-value">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Total Treads:</span>
+                        <span id="outTreads" class="result-value">-</span>
+                    </div>
+                </div>
+
+                <!-- Single-Run Results -->
+                <div class="results-section single-results">
+                    <div class="results-section-title">Footprint</div>
+                    <div class="result-item">
+                        <span class="result-label">Total Run:</span>
+                        <span id="outRun" class="result-value">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Footprint:</span>
+                        <span id="outFootprintSingle" class="result-value">-</span>
+                    </div>
+                </div>
+
+                <!-- Switchback Results -->
+                <div class="results-section switchback-results">
+                    <div class="results-section-title">Flight 1 (Lower)</div>
+                    <div class="result-item">
+                        <span class="result-label">Risers:</span>
+                        <span id="outFlight1Risers" class="result-value">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Run:</span>
+                        <span id="outFlight1Run" class="result-value">-</span>
+                    </div>
+                </div>
+
+                <div class="results-section switchback-results">
+                    <div class="results-section-title">Landing</div>
+                    <div class="result-item">
+                        <span class="result-label">Dimensions:</span>
+                        <span id="outLanding" class="result-value">-</span>
+                    </div>
+                </div>
+
+                <div class="results-section switchback-results">
+                    <div class="results-section-title">Flight 2 (Upper)</div>
+                    <div class="result-item">
+                        <span class="result-label">Risers:</span>
+                        <span id="outFlight2Risers" class="result-value">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="result-label">Run:</span>
+                        <span id="outFlight2Run" class="result-value">-</span>
+                    </div>
+                </div>
+
+                <div class="results-section switchback-results">
+                    <div class="results-section-title">Total Footprint</div>
+                    <div class="result-item">
+                        <span class="result-label">Footprint:</span>
+                        <span id="outFootprintSwitchback" class="result-value">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <p class="note">*Calculations based on IRC R311.7: max riser 7.75", min tread 10", min landing 36" × 36".</p>
         </div>
 
         <div class="visuals">
@@ -124,33 +318,186 @@
     </div>
 
     <script>
+        // DOM Elements
         const heightInput = document.getElementById('heightInput');
+        const widthInput = document.getElementById('widthInput');
+        const canvas = document.getElementById('stairCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Output Elements
         const outRisers = document.getElementById('outRisers');
         const outRiserHeight = document.getElementById('outRiserHeight');
         const outTreads = document.getElementById('outTreads');
         const outRun = document.getElementById('outRun');
-        const canvas = document.getElementById('stairCanvas');
-        const ctx = canvas.getContext('2d');
+        const outFootprintSingle = document.getElementById('outFootprintSingle');
+        const outFlight1Risers = document.getElementById('outFlight1Risers');
+        const outFlight1Run = document.getElementById('outFlight1Run');
+        const outFlight2Risers = document.getElementById('outFlight2Risers');
+        const outFlight2Run = document.getElementById('outFlight2Run');
+        const outLanding = document.getElementById('outLanding');
+        const outFootprintSwitchback = document.getElementById('outFootprintSwitchback');
+
+        // Type selector elements
+        const optSingle = document.getElementById('opt-single');
+        const optSwitchback = document.getElementById('opt-switchback');
+        const singleResults = document.querySelector('.single-results');
+        const switchbackResults = document.querySelectorAll('.switchback-results');
+
+        // State
+        let stairType = 'single';
+
+        // Helper: Convert inches to feet-inches string
+        function toFeetInches(inches) {
+            const feet = Math.floor(inches / 12);
+            const remainingInches = inches % 12;
+
+            if (feet === 0) {
+                return formatInches(remainingInches);
+            } else if (remainingInches === 0) {
+                return `${feet}'-0"`;
+            } else {
+                return `${feet}'-${formatInches(remainingInches)}`;
+            }
+        }
+
+        // Helper: Format inches with fractions for common values
+        function formatInches(inches) {
+            const whole = Math.floor(inches);
+            const decimal = inches - whole;
+
+            // Common fractions
+            const fractions = [
+                { val: 0.125, str: '⅛' },
+                { val: 0.25, str: '¼' },
+                { val: 0.375, str: '⅜' },
+                { val: 0.5, str: '½' },
+                { val: 0.625, str: '⅝' },
+                { val: 0.75, str: '¾' },
+                { val: 0.875, str: '⅞' }
+            ];
+
+            // Find closest fraction within tolerance
+            for (const frac of fractions) {
+                if (Math.abs(decimal - frac.val) < 0.03) {
+                    if (whole === 0) return `${frac.str}"`;
+                    return `${whole}${frac.str}"`;
+                }
+            }
+
+            // No matching fraction, use decimal
+            if (decimal === 0) {
+                return `${whole}"`;
+            }
+            return `${inches.toFixed(2)}"`;
+        }
+
+        // Helper: Format dimension with both units
+        function formatDual(inches) {
+            const inchesStr = formatInches(inches);
+            const ftInStr = toFeetInches(inches);
+
+            // If less than 12 inches, just show inches
+            if (inches < 12) {
+                return inchesStr;
+            }
+
+            return `${ftInStr} <span class="secondary">(${inches.toFixed(1)}")</span>`;
+        }
+
+        // Type selector handlers
+        optSingle.addEventListener('click', () => {
+            stairType = 'single';
+            optSingle.classList.add('selected');
+            optSwitchback.classList.remove('selected');
+            singleResults.style.display = 'block';
+            switchbackResults.forEach(el => el.classList.remove('visible'));
+            calculateAndDraw();
+        });
+
+        optSwitchback.addEventListener('click', () => {
+            stairType = 'switchback';
+            optSwitchback.classList.add('selected');
+            optSingle.classList.remove('selected');
+            singleResults.style.display = 'none';
+            switchbackResults.forEach(el => el.classList.add('visible'));
+            calculateAndDraw();
+        });
 
         function calculateAndDraw() {
             const height = parseFloat(heightInput.value);
-            if (!height || height <= 0) return;
+            const width = parseFloat(widthInput.value);
 
-            // IRC Math
+            if (!height || height <= 0 || !width || width < 36) return;
+
+            // IRC Math (same for both types)
             const totalRisers = Math.ceil(height / 7.75);
             const exactRiserHeight = height / totalRisers;
             const totalTreads = totalRisers - 1;
-            const totalRun = totalTreads * 10;
+            const treadDepth = 10; // IRC minimum
 
-            // Update Text Outputs
+            // Update common outputs
             outRisers.innerText = totalRisers;
-            outRiserHeight.innerText = exactRiserHeight.toFixed(2) + '"';
+            outRiserHeight.innerHTML = formatDual(exactRiserHeight);
             outTreads.innerText = totalTreads;
-            outRun.innerText = totalRun.toFixed(1) + '"';
 
-            // Draw Canvas
+            if (stairType === 'single') {
+                calculateSingleRun(totalRisers, totalTreads, exactRiserHeight, treadDepth, width, height);
+            } else {
+                calculateSwitchback(totalRisers, totalTreads, exactRiserHeight, treadDepth, width, height);
+            }
+        }
+
+        function calculateSingleRun(totalRisers, totalTreads, riserHeight, treadDepth, width, height) {
+            const totalRun = totalTreads * treadDepth;
+
+            // Update outputs
+            outRun.innerHTML = formatDual(totalRun);
+            outFootprintSingle.innerHTML = `${toFeetInches(totalRun)} × ${toFeetInches(width)}`;
+
+            // Draw side-view diagram
+            drawSingleRun(totalRisers, totalTreads, riserHeight, treadDepth, height);
+        }
+
+        function calculateSwitchback(totalRisers, totalTreads, riserHeight, treadDepth, width, height) {
+            // IRC R311.7.6: Landing must be at least 36" in direction of travel
+            const landingDepth = 36;
+            const landingWidth = width;
+
+            // Split risers between two flights (as equal as possible)
+            const flight1Risers = Math.ceil(totalRisers / 2);
+            const flight2Risers = totalRisers - flight1Risers;
+
+            // Calculate treads per flight
+            // Flight 1: risers - 1 (landing is top)
+            // Flight 2: risers - 1 (upper floor is top)
+            const flight1Treads = flight1Risers - 1;
+            const flight2Treads = flight2Risers - 1;
+
+            const flight1Run = flight1Treads * treadDepth;
+            const flight2Run = flight2Treads * treadDepth;
+
+            // Total footprint for U-shaped switchback
+            // Length = max run + landing depth
+            // Width = 2 × stair width (two parallel flights)
+            const footprintLength = Math.max(flight1Run, flight2Run) + landingDepth;
+            const footprintWidth = width * 2;
+
+            // Update outputs
+            outFlight1Risers.innerText = flight1Risers;
+            outFlight1Run.innerHTML = formatDual(flight1Run);
+            outFlight2Risers.innerText = flight2Risers;
+            outFlight2Run.innerHTML = formatDual(flight2Run);
+            outLanding.innerHTML = `${toFeetInches(landingWidth)} × ${toFeetInches(landingDepth)}`;
+            outFootprintSwitchback.innerHTML = `${toFeetInches(footprintLength)} × ${toFeetInches(footprintWidth)}`;
+
+            // Draw top-down plan view
+            drawSwitchback(flight1Run, flight2Run, landingDepth, width);
+        }
+
+        function drawSingleRun(totalRisers, totalTreads, riserHeight, treadDepth, height) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+            const totalRun = totalTreads * treadDepth;
             const padding = 40;
             const drawWidth = canvas.width - (padding * 2);
             const drawHeight = canvas.height - (padding * 2);
@@ -158,27 +505,26 @@
             // Scaling to fit canvas
             const scaleX = drawWidth / totalRun;
             const scaleY = drawHeight / height;
-            // Keep proportions realistic if possible, or just fit to box
             const scale = Math.min(scaleX, scaleY);
 
             const startX = padding;
             const startY = canvas.height - padding;
 
+            // Draw steps
             ctx.beginPath();
-            ctx.moveTo(startX, startY); // Start at bottom floor
+            ctx.moveTo(startX, startY);
 
             let currentX = startX;
             let currentY = startY;
 
-            // Draw Steps
             for (let i = 0; i < totalRisers; i++) {
                 // Draw Riser (up)
-                currentY -= exactRiserHeight * scale;
+                currentY -= riserHeight * scale;
                 ctx.lineTo(currentX, currentY);
 
-                // Draw Tread (right), except for the very last step which meets the upper floor
+                // Draw Tread (right), except for the very last step
                 if (i < totalTreads) {
-                    currentX += 10 * scale;
+                    currentX += treadDepth * scale;
                     ctx.lineTo(currentX, currentY);
                 }
             }
@@ -196,10 +542,119 @@
             ctx.strokeStyle = '#7f8c8d';
             ctx.lineWidth = 4;
             ctx.stroke();
+
+            // Labels
+            ctx.font = '12px -apple-system, sans-serif';
+            ctx.fillStyle = '#7f8c8d';
+            ctx.fillText('Lower Floor', startX - 20, startY + 20);
+            ctx.fillText('Upper Floor', currentX - 20, currentY - 10);
+        }
+
+        function drawSwitchback(flight1Run, flight2Run, landingDepth, width) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const padding = 50;
+            const drawWidth = canvas.width - (padding * 2);
+            const drawHeight = canvas.height - (padding * 2);
+
+            // Total dimensions
+            const totalLength = Math.max(flight1Run, flight2Run) + landingDepth;
+            const totalWidth = width * 2;
+
+            // Scale to fit
+            const scale = Math.min(drawWidth / totalLength, drawHeight / totalWidth);
+
+            const startX = padding;
+            const startY = padding;
+
+            // Flight 1 (left side, going up)
+            const f1Width = width * scale;
+            const f1Length = flight1Run * scale;
+
+            ctx.fillStyle = '#e8f4f8';
+            ctx.fillRect(startX, startY + f1Width, f1Length, f1Width);
+            ctx.strokeStyle = '#2980b9';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(startX, startY + f1Width, f1Length, f1Width);
+
+            // Arrow for Flight 1 direction
+            ctx.beginPath();
+            ctx.moveTo(startX + 20, startY + f1Width + f1Width / 2);
+            ctx.lineTo(startX + f1Length - 20, startY + f1Width + f1Width / 2);
+            ctx.lineTo(startX + f1Length - 30, startY + f1Width + f1Width / 2 - 8);
+            ctx.moveTo(startX + f1Length - 20, startY + f1Width + f1Width / 2);
+            ctx.lineTo(startX + f1Length - 30, startY + f1Width + f1Width / 2 + 8);
+            ctx.strokeStyle = '#2980b9';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Landing (top right corner)
+            const landingX = startX + Math.max(flight1Run, flight2Run) * scale;
+            const landingY = startY;
+            const landingW = landingDepth * scale;
+            const landingH = totalWidth * scale;
+
+            ctx.fillStyle = '#fef9e7';
+            ctx.fillRect(landingX, landingY, landingW, landingH);
+            ctx.strokeStyle = '#f39c12';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(landingX, landingY, landingW, landingH);
+
+            // Flight 2 (right side, going up from landing)
+            const f2Length = flight2Run * scale;
+
+            ctx.fillStyle = '#e8f4f8';
+            ctx.fillRect(startX + (Math.max(flight1Run, flight2Run) - flight2Run) * scale, startY, f2Length, f1Width);
+            ctx.strokeStyle = '#2980b9';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(startX + (Math.max(flight1Run, flight2Run) - flight2Run) * scale, startY, f2Length, f1Width);
+
+            // Arrow for Flight 2 direction (opposite)
+            const f2StartX = startX + (Math.max(flight1Run, flight2Run) - flight2Run) * scale;
+            ctx.beginPath();
+            ctx.moveTo(f2StartX + f2Length - 20, startY + f1Width / 2);
+            ctx.lineTo(f2StartX + 20, startY + f1Width / 2);
+            ctx.lineTo(f2StartX + 30, startY + f1Width / 2 - 8);
+            ctx.moveTo(f2StartX + 20, startY + f1Width / 2);
+            ctx.lineTo(f2StartX + 30, startY + f1Width / 2 + 8);
+            ctx.strokeStyle = '#2980b9';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Labels
+            ctx.font = 'bold 11px -apple-system, sans-serif';
+            ctx.fillStyle = '#2980b9';
+            ctx.fillText('FLIGHT 1', startX + 10, startY + f1Width + f1Width / 2 + 25);
+            ctx.fillText('FLIGHT 2', f2StartX + 10, startY + f1Width / 2 + 25);
+
+            ctx.fillStyle = '#f39c12';
+            ctx.fillText('LANDING', landingX + 5, landingY + landingH / 2);
+
+            // Dimension labels
+            ctx.font = '10px -apple-system, sans-serif';
+            ctx.fillStyle = '#7f8c8d';
+            ctx.fillText(`${toFeetInches(flight1Run)}`, startX + f1Length / 2 - 15, startY + f1Width * 2 + 15);
+            ctx.fillText(`${toFeetInches(flight2Run)}`, f2StartX + f2Length / 2 - 15, startY - 8);
+            ctx.fillText(`${toFeetInches(landingDepth)}`, landingX + landingW / 2 - 10, landingY + landingH + 15);
+
+            // Start/End markers
+            ctx.fillStyle = '#27ae60';
+            ctx.beginPath();
+            ctx.arc(startX + 10, startY + f1Width + f1Width / 2, 6, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.font = '10px -apple-system, sans-serif';
+            ctx.fillText('START', startX, startY + f1Width * 2 + 30);
+
+            ctx.fillStyle = '#e74c3c';
+            ctx.beginPath();
+            ctx.arc(f2StartX + 10, startY + f1Width / 2, 6, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillText('END', f2StartX, startY - 15);
         }
 
         // Event Listeners
         heightInput.addEventListener('input', calculateAndDraw);
+        widthInput.addEventListener('input', calculateAndDraw);
 
         // Initial load
         calculateAndDraw();
