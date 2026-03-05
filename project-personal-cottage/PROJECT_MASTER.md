@@ -11,6 +11,9 @@ Documentation boundary:
 - Project requirements, design intent, constraints, and decisions belong here.
 - `agent.md` contains only coding-agent operational guidance and workflow protocol.
 
+## Active Folders
+Tier 1 (required) folders are initialized. No Tier 2 folders (Program, Site, Permits, Coordination, Meetings) have been created yet — create when first needed per `../PRACTICE_MASTER.md` → Documentation Strategy.
+
 ## Project Overview
 - Project Name: Personal Cottage
 - Location: Massachusetts, Vermont, or Connecticut (exact municipality pending)
@@ -112,25 +115,10 @@ Use layer states for sheet-variant visibility (permit/DD/CD, life safety, furnit
 - Use blocks consistently.
 - Prefer attributes for IDs and fields for sheet/detail references when SSM is present.
 
-### Minimal Folder Convention (Project Reconciled)
-Current required folders:
-- `Drawings/`
-- `Data_Raw/`
-- `Schedules/`
-- `Specs/`
-- `Code_Research/`
+### Folder Convention
+See `../PRACTICE_MASTER.md` → Documentation Strategy for the full taxonomy and creation rules. CAD-specific subfolders (XREF, Sheets, Details, Library, Exports) are created inside `Drawings/` as the project scales.
 
-Recommended optional additions as documentation/detail matures:
-- `00_Admin/`
-- `01_References/`
-- `02_XREF/`
-- `03_Sheets/`
-- `04_Details/`
-- `05_Library/`
-- `06_Exports/`
-- `07_Standards/`
-
-If optional folders are introduced, use relative paths and maintain shared drawing origin.
+If CAD subfolders are introduced, use relative paths and maintain shared drawing origin at `0,0,0`.
 
 ### Do This, Not That Defaults
 - Use XREF backgrounds instead of copied geometry.

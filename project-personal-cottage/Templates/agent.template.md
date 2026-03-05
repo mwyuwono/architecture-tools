@@ -2,10 +2,15 @@
 
 ## Purpose
 This file is the coding-agent execution protocol for this project.
+For repo-wide agent behavior, see `../agent.md`.
+
+Notes ingestion: see `../agent.md` — Notes Ingestion Protocol. Check `notes/` at session startup per that protocol.
+Documentation hygiene: see `../agent.md` — Documentation Hygiene Protocol.
 
 Documentation authority:
 - Project documentation authority: `PROJECT_MASTER.md`
 - Practice documentation authority: `../PRACTICE_MASTER.md`
+- Document taxonomy and routing: `../PRACTICE_MASTER.md` → Documentation Strategy
 
 ## Required Inputs for Agent Work
 Before implementing changes, read:

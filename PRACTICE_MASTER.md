@@ -18,6 +18,83 @@ For each project under this repository:
 2. Keep `<project>/agent.md` focused on coding-agent operations.
 3. Keep only minimal project summary in `agent.md` that is required for automation safety.
 
+## Documentation Strategy
+
+Each piece of information has exactly one canonical home. Cross-reference rather than duplicate.
+
+### Practice-Level Taxonomy
+
+| File / Folder | Contents |
+|---|---|
+| `PRACTICE_MASTER.md` | Practice authority: standards, conventions, project index, documentation strategy |
+| `agent.md` | Coding-agent execution protocol |
+| `CLAUDE.md` | Claude-specific supplement only |
+| `notes/` | Raw unprocessed notes (drop zone) |
+| `tools/` | Shared utilities and scripts |
+
+### Project-Level Taxonomy
+
+**Required at project initialization:**
+
+| Folder / File | Contents |
+|---|---|
+| `PROJECT_MASTER.md` | Project authority: design intent, overview, decisions, drafting standards |
+| `agent.md` | Project coding-agent execution protocol |
+| `notes/` | Raw unprocessed notes |
+| `processed-notes/` | Archived raw notes after ingestion |
+| `Drawings/` | CAD files (DWG, DXF) |
+| `Specs/` | Material and assembly specifications |
+| `Schedules/` | Generated schedules |
+| `Code_Research/` | Jurisdiction and code analysis notes |
+| `Data_Raw/` | Source data for schedule generation |
+| `Templates/` | Reusable document templates |
+| `Archive/` | Superseded documentation |
+
+**Create when first needed — never pre-create empty:**
+
+| Folder | Create when |
+|---|---|
+| `Program/` | Client brief or space program is formalized |
+| `Site/` | Site documentation is collected |
+| `Permits/` | Permitting process begins |
+| `Coordination/` | Consultants are engaged |
+| `Meetings/` | Formal meeting notes need tracking |
+
+### Document Routing Table
+
+| Document Type | Canonical Location | Naming Convention |
+|---|---|---|
+| Design intent and constraints | `PROJECT_MASTER.md` → Design Intent | — |
+| Technical design decisions | `PROJECT_MASTER.md` → Decision Log | `- YYYY-MM-DD: ...` |
+| Drafting standards | `PROJECT_MASTER.md` → Drafting Standard section | — |
+| Client brief / space program | `Program/program.md` | — |
+| Site analysis | `Site/site-analysis.md` | — |
+| Material / assembly specifications | `Specs/<system>-spec.md` | `exterior-wall-spec.md` |
+| Raw schedule source data | `Data_Raw/` | `YYYY-MM-DD_<source>_<topic>.csv` |
+| Generated schedules | `Schedules/<type>-schedule.md` | `door-schedule.md` |
+| Code / zoning / jurisdiction notes | `Code_Research/` | `<jurisdiction>-<code>-notes.md` |
+| Permit documents and approvals | `Permits/` | `YYYY-MM-DD_<type>.md` |
+| Consultant transmittals and RFIs | `Coordination/` | `YYYY-MM-DD_<consultant>_<topic>.md` |
+| Meeting notes | `Meetings/` | `YYYY-MM-DD_<topic>.md` |
+| Superseded documentation | `Archive/YYYY-MM-DD_<reason>/` | Dated subfolder |
+| Raw notes (unprocessed) | `notes/` | Processed by agent at session start |
+
+### Archive Policy
+
+- Move superseded files to `Archive/YYYY-MM-DD_<reason>/` — never silently delete or comment out.
+- When a phase closes, archive its deliverables as a batch with a descriptive subfolder name.
+- Plan files (`.claude/plans/*.md`) are deleted or archived after implementation.
+- Do not leave empty `Archive/` subfolders.
+
+### Agent Writing Standards
+
+1. No preamble. Start with content. Never write "This section describes..." or "It is worth noting that..."
+2. Bullets over prose for reference material. Prose only for narrative sections (Design Intent, site analysis).
+3. One truth per place. If information exists elsewhere, cross-reference — never copy.
+4. Decision Log entries: one line, `- YYYY-MM-DD: factual statement`.
+5. No orphaned section headers. Remove headers with no content.
+6. If a section exceeds ~20 bullets or ~500 words, extract it to its own file and cross-reference.
+
 ## Project Index
 | Project | Path | Project Master | Agent File |
 |---|---|---|---|
@@ -68,3 +145,4 @@ Agents must proactively keep work backed up and the tree tidy.
 
 ## Change Log
 - 2026-03-05: Established practice-wide documentation architecture and coding-agent git hygiene protocol.
+- 2026-03-05: Added documentation strategy: taxonomy, routing table, archive policy, and agent writing standards.

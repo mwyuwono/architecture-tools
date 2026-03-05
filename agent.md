@@ -63,9 +63,15 @@ For each note file found, read the content and determine the appropriate target:
 | Note Content | Typical Source | Target |
 |---|---|---|
 | Practice conventions, naming standards, documentation policy | `notes/` (root) | `PRACTICE_MASTER.md` |
-| Design intent: massing, materials, style, site, orientation | `<project>/notes/` | `<project>/PROJECT_MASTER.md` → Design Intent or Decision Log |
+| Design intent: massing, materials, style, orientation | `<project>/notes/` | `<project>/PROJECT_MASTER.md` → Design Intent |
+| Technical design decisions | `<project>/notes/` | `<project>/PROJECT_MASTER.md` → Decision Log |
 | Technical systems: HVAC, structural, envelope, MEP | `<project>/notes/` | `<project>/PROJECT_MASTER.md` → relevant systems section, or new section |
-| Code, zoning, jurisdiction, permitting | `<project>/notes/` | `<project>/PROJECT_MASTER.md` → Code Research Status, or new file in `Code_Research/` |
+| Client brief, space requirements, adjacencies | `<project>/notes/` | `<project>/Program/program.md` (create file if absent) |
+| Site, survey, context | `<project>/notes/` | `<project>/Site/site-analysis.md` (create file if absent) |
+| Code, zoning, jurisdiction | `<project>/notes/` | `<project>/Code_Research/<jurisdiction>-<code>-notes.md` |
+| Permit, agency, approval | `<project>/notes/` | `<project>/Permits/` (create folder if absent) |
+| Consultant coordination, RFI | `<project>/notes/` | `<project>/Coordination/` (create folder if absent) |
+| Meeting, discussion, decision recap | `<project>/notes/` | `<project>/Meetings/YYYY-MM-DD_<topic>.md` (create folder if absent) |
 | Historic, commission, or client-facing significance | `<project>/notes/` | `<project>/PROJECT_MASTER.md` → Notes of Record (create section if absent) |
 | Agent execution or workflow changes | any | root `agent.md` or `<project>/agent.md` |
 | Ambiguous or no clean fit | any | Propose target and rationale to user |
@@ -90,6 +96,30 @@ After confirmation:
 3. Move each note file into `processed-notes/`.
 4. Commit all changes per the git hygiene protocol with a message like `Process notes from YYYY-MM-DD session`.
 
+## Documentation Hygiene Protocol
+
+### Update, Don't Append
+When content changes, edit the existing section. Do not create a parallel section or a new file alongside the old one. If the prior version has archival value, move it to `Archive/` before editing.
+
+### Archive, Don't Delete or Comment Out
+Superseded content is never silently deleted or left commented out:
+- Move to `Archive/YYYY-MM-DD_<reason>/` in the relevant project folder.
+- Update any cross-references in other files to point to the archive or remove the stale reference.
+
+### Plan File Lifecycle
+After implementing a plan from `.claude/plans/`:
+- Delete the plan file if fully implemented and no follow-up is needed.
+- Move to `Archive/` if it contains useful historical context.
+- Never leave stale plan files in `.claude/plans/`.
+
+### Cross-Reference Sync
+When renaming or moving a file or section:
+- Search for references to it across `PROJECT_MASTER.md`, `agent.md`, `PRACTICE_MASTER.md`, and `Templates/`.
+- Update or remove stale references before committing.
+
+### No Duplicate Information
+Before writing new content, check whether it already exists in `PROJECT_MASTER.md`, `PRACTICE_MASTER.md`, or the relevant spec or schedule. If it does, cross-reference instead.
+
 ## Repository Layout
 
 - `PRACTICE_MASTER.md` — practice documentation authority
@@ -107,3 +137,4 @@ After confirmation:
 ## Change Log
 
 - 2026-03-05: Established as primary coding-agent instructions file. `CLAUDE.md` reduced to Claude-specific supplement.
+- 2026-03-05: Added documentation hygiene protocol; expanded notes routing table to full document taxonomy.
