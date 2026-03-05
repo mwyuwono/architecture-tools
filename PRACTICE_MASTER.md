@@ -8,8 +8,8 @@ Documentation boundary:
 - `agent.md` files remain the single source of truth for coding-agent execution behavior and automation workflow.
 
 ## Canonical References
-- Coding agent global instructions: `CLAUDE.md`
-- Agent compatibility pointer: `agents.md`
+- Coding agent primary instructions: `agent.md` (all agents)
+- Claude supplement: `CLAUDE.md` (cross-references `agent.md`)
 - Practice master documentation: `PRACTICE_MASTER.md` (this file)
 
 ## Practice Documentation Model
