@@ -7,7 +7,11 @@
 ; ============================================================
 ; SECTION 1: UNITS AND SYSTEM VARIABLES
 ; ============================================================
+; -UNITS prompts: linear type, denominator, angular type, angular precision,
+;                 direction for angle 0 (accept default), clockwise (accept default)
 -UNITS 4 16 1 0
+
+
 SETVAR LWDISPLAY 1
 SETVAR INSUNITS 1
 ; ============================================================
