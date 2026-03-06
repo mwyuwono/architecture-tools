@@ -1,22 +1,73 @@
-Layer Name,Discipline,Major Group,Description,Color,Linetype,Lineweight_mm,Plot,Notes
-0,General,Default,Default layer,7,Continuous,Default,Yes,Do not delete
-A-WALL,Architectural,Wall,Walls - major cut elements,1,Continuous,0.50,Yes,Heavy lineweight for cut lines
-A-DOOR,Architectural,Door,Doors,30,Continuous,0.35,Yes,Medium lineweight
-A-WIND,Architectural,Window,Windows,40,Continuous,0.35,Yes,Medium lineweight
-A-FLOR,Architectural,Floor,Floor patterns and finishes,8,Continuous,0.18,Yes,Light lineweight
-A-CLNG,Architectural,Ceiling,Ceiling lines and grids,8,Hidden,0.18,Yes,Hidden linetype for ceiling above
-A-ROOF,Architectural,Roof,Roof elements,3,Continuous,0.35,Yes,Medium lineweight
-A-STRS,Architectural,Stairs,Stairs and railings,4,Continuous,0.35,Yes,Medium lineweight
-A-FURN,Architectural,Furniture,Furniture and equipment,8,Continuous,0.18,Yes,Light lineweight
-A-GLAZ,Architectural,Glazing,Glass and glazing,5,Continuous,0.25,Yes,Medium-light lineweight
-A-COLS,Architectural,Columns,Architectural columns,1,Continuous,0.50,Yes,Heavy lineweight for cut
-A-HATCH,Architectural,Hatch,Hatch patterns,252,Continuous,0.09,Yes,Very light lineweight
-A-VIEW,Architectural,View,Section and elevation marks,6,Continuous,0.25,Yes,View reference symbols
-A-ANNO-DIMS,Architectural,Annotation,Dimensions,7,Continuous,0.18,Yes,Annotation layer
-A-ANNO-TEXT,Architectural,Annotation,Text and notes,7,Continuous,0.18,Yes,Annotation layer
-A-ANNO-SYMB,Architectural,Annotation,Symbols and tags,7,Continuous,0.18,Yes,Annotation layer
-S-BEAM,Structural,Beam,Structural beams,10,Continuous,0.35,Yes,Medium lineweight
-S-COLS,Structural,Columns,Structural columns,10,Continuous,0.50,Yes,Heavy lineweight for cut
-C-GRID,Coordination,Grid,Column and reference grid,9,Center,0.18,Yes,Center linetype
-V-VPRT,Viewport,Support,Viewport boundaries,8,Continuous,Default,No,Non-plotting layer
-Defpoints,System,Support,Definition points,7,Continuous,Default,No,System-managed - do not modify
+Layer,Color,Linetype,Lineweight,Plot,Description
+0,7,Continuous,Default,Yes,Default layer
+Defpoints,7,Continuous,Default,No,System-managed dimension points
+A-WALL,1,Continuous,0.50,Yes,General wall lines
+A-WALL-CORE,1,Continuous,0.50,Yes,Wall core/structure
+A-WALL-INT,1,Continuous,0.50,Yes,Interior partition walls
+A-WALL-EXT,1,Continuous,0.50,Yes,Exterior walls
+A-WALL-DEMO,14,Phantom,0.35,Yes,Walls to be demolished
+A-WALL-EXST,253,Continuous,0.50,Yes,Existing walls to remain
+A-WALL-OVER,1,Hidden,0.25,Yes,Walls above cut plane
+A-DOOR,30,Continuous,0.35,Yes,Door outlines general
+A-DOOR-FRM,30,Continuous,0.35,Yes,Door frames
+A-DOOR-PANL,30,Continuous,0.25,Yes,Door panels
+A-DOOR-SWNG,30,Continuous,0.18,Yes,Door swings
+A-DOOR-GLAZ,5,Continuous,0.25,Yes,Door glazing
+A-WIND,40,Continuous,0.35,Yes,Window outlines general
+A-WIND-FRM,40,Continuous,0.35,Yes,Window frames
+A-WIND-GLAZ,5,Continuous,0.25,Yes,Window glazing
+A-WIND-SILL,40,Continuous,0.25,Yes,Window sills
+A-FLOR,8,Continuous,0.18,Yes,Floor outlines general
+A-FLOR-PATT,252,Continuous,0.13,Yes,Floor patterns/finishes
+A-FLOR-FIN,8,Continuous,0.18,Yes,Floor finish boundaries
+A-FLOR-STRS,4,Continuous,0.35,Yes,Floor level stairs
+A-CLNG,8,Hidden,0.18,Yes,Ceiling lines
+A-CLNG-GRID,8,Hidden,0.13,Yes,Ceiling grid
+A-CLNG-SOFF,8,Hidden,0.18,Yes,Soffits
+A-CLNG-OPEN,8,Hidden,0.18,Yes,Ceiling openings
+A-ROOF,3,Continuous,0.35,Yes,Roof outlines general
+A-ROOF-EDGE,3,Continuous,0.35,Yes,Roof edges/eaves
+A-ROOF-RIDG,3,Continuous,0.35,Yes,Ridges
+A-ROOF-VALY,3,Continuous,0.25,Yes,Valleys
+A-ROOF-OVER,3,Hidden,0.18,Yes,Roof overhangs dashed in plan
+A-ROOF-DOWN,3,Continuous,0.18,Yes,Downspouts drainage
+A-STRS,4,Continuous,0.35,Yes,Stair outlines general
+A-STRS-UP,4,Continuous,0.35,Yes,Stairs going up
+A-STRS-DOWN,4,Hidden,0.25,Yes,Stairs going down beyond
+A-STRS-HAND,4,Continuous,0.25,Yes,Handrails guards
+S-BEAM,10,Continuous,0.35,Yes,Structural beams
+S-COLS,10,Continuous,0.50,Yes,Structural columns
+S-FOOT,10,Continuous,0.35,Yes,Footings
+S-FNDN,10,Continuous,0.50,Yes,Foundation walls
+S-SLAB,10,Continuous,0.35,Yes,Structural slabs
+C-GRID,9,Center,0.25,Yes,Column/reference grid lines
+C-GRID-IDEN,9,Continuous,0.18,Yes,Grid bubbles/identifiers
+A-FURN,8,Continuous,0.18,Yes,Furniture
+A-FURN-FIXT,8,Continuous,0.18,Yes,Fixtures plumbing etc
+A-EQPM,8,Continuous,0.18,Yes,Equipment appliances
+A-ANNO-DIMS,7,Continuous,0.18,Yes,Dimensions
+A-ANNO-TEXT,7,Continuous,0.18,Yes,General text notes
+A-ANNO-NOTE,7,Continuous,0.18,Yes,Keynotes general notes
+A-ANNO-TAGS,7,Continuous,0.18,Yes,Door/window/room tags
+A-ANNO-SYMB,7,Continuous,0.18,Yes,Symbols north arrow etc
+A-ANNO-LEAD,7,Continuous,0.18,Yes,Leaders callouts
+A-SECT-IDEN,6,Continuous,0.25,Yes,Section identification marks
+A-SECT-CUT,6,Continuous,0.35,Yes,Section cut lines
+A-ELEV-IDEN,6,Continuous,0.25,Yes,Elevation identification marks
+A-HATCH,252,Continuous,0.13,Yes,General hatching
+A-HATCH-CONC,252,Continuous,0.13,Yes,Concrete hatch
+A-HATCH-WOOD,252,Continuous,0.13,Yes,Wood hatch
+A-HATCH-INSL,252,Continuous,0.13,Yes,Insulation hatch
+A-DEMO,14,Phantom,0.35,Yes,General demolition
+A-DEMO-WALL,14,Phantom,0.35,Yes,Walls to demolish
+A-DEMO-DOOR,14,Phantom,0.25,Yes,Doors to demolish
+A-DEMO-WIND,14,Phantom,0.25,Yes,Windows to demolish
+A-EXST-WALL,253,Continuous,0.50,Yes,Existing walls
+A-EXST-DOOR,253,Continuous,0.35,Yes,Existing doors
+A-EXST-WIND,253,Continuous,0.35,Yes,Existing windows
+C-PROP,9,Phantom,0.25,Yes,Property lines
+C-TOPO,9,Continuous,0.18,Yes,Topography contours
+C-ROAD,9,Continuous,0.25,Yes,Roads driveways
+C-WALK,9,Continuous,0.18,Yes,Walkways paths
+V-VPRT,8,Continuous,0.18,No,Viewport boundaries
+V-TITL,7,Continuous,0.18,Yes,Title block elements

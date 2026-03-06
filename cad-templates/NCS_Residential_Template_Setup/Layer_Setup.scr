@@ -1,0 +1,260 @@
+; ============================================================
+; Layer_Setup.scr - Comprehensive Residential Layer Standard
+; NCS-inspired / UDS-aligned layer structure
+; Compatible with AutoCAD for Mac 2018+
+; ============================================================
+; Run with SCRIPT command after opening a clean DWG/DXF file
+; ============================================================
+; SECTION 1: UNITS AND SYSTEM VARIABLES
+; ============================================================
+-UNITS 4 16 1 0
+SETVAR LWDISPLAY 1
+SETVAR INSUNITS 1
+; ============================================================
+; SECTION 2: LOAD REQUIRED LINETYPES
+; ============================================================
+-LINETYPE L Hidden acad.lin
+
+-LINETYPE L Center acad.lin
+
+-LINETYPE L Phantom acad.lin
+
+; ============================================================
+; SECTION 3: WALL LAYERS (7)
+; ============================================================
+-LAYER N A-WALL C 1 A-WALL LT Continuous A-WALL LW 0.50 A-WALL
+
+-LAYER N A-WALL-CORE C 1 A-WALL-CORE LT Continuous A-WALL-CORE LW 0.50 A-WALL-CORE
+
+-LAYER N A-WALL-INT C 1 A-WALL-INT LT Continuous A-WALL-INT LW 0.50 A-WALL-INT
+
+-LAYER N A-WALL-EXT C 1 A-WALL-EXT LT Continuous A-WALL-EXT LW 0.50 A-WALL-EXT
+
+-LAYER N A-WALL-DEMO C 14 A-WALL-DEMO LT Phantom A-WALL-DEMO LW 0.35 A-WALL-DEMO
+
+-LAYER N A-WALL-EXST C 253 A-WALL-EXST LT Continuous A-WALL-EXST LW 0.50 A-WALL-EXST
+
+-LAYER N A-WALL-OVER C 1 A-WALL-OVER LT Hidden A-WALL-OVER LW 0.25 A-WALL-OVER
+
+; ============================================================
+; SECTION 4: DOOR LAYERS (5)
+; ============================================================
+-LAYER N A-DOOR C 30 A-DOOR LT Continuous A-DOOR LW 0.35 A-DOOR
+
+-LAYER N A-DOOR-FRM C 30 A-DOOR-FRM LT Continuous A-DOOR-FRM LW 0.35 A-DOOR-FRM
+
+-LAYER N A-DOOR-PANL C 30 A-DOOR-PANL LT Continuous A-DOOR-PANL LW 0.25 A-DOOR-PANL
+
+-LAYER N A-DOOR-SWNG C 30 A-DOOR-SWNG LT Continuous A-DOOR-SWNG LW 0.18 A-DOOR-SWNG
+
+-LAYER N A-DOOR-GLAZ C 5 A-DOOR-GLAZ LT Continuous A-DOOR-GLAZ LW 0.25 A-DOOR-GLAZ
+
+; ============================================================
+; SECTION 5: WINDOW LAYERS (4)
+; ============================================================
+-LAYER N A-WIND C 40 A-WIND LT Continuous A-WIND LW 0.35 A-WIND
+
+-LAYER N A-WIND-FRM C 40 A-WIND-FRM LT Continuous A-WIND-FRM LW 0.35 A-WIND-FRM
+
+-LAYER N A-WIND-GLAZ C 5 A-WIND-GLAZ LT Continuous A-WIND-GLAZ LW 0.25 A-WIND-GLAZ
+
+-LAYER N A-WIND-SILL C 40 A-WIND-SILL LT Continuous A-WIND-SILL LW 0.25 A-WIND-SILL
+
+; ============================================================
+; SECTION 6: FLOOR LAYERS (4)
+; ============================================================
+-LAYER N A-FLOR C 8 A-FLOR LT Continuous A-FLOR LW 0.18 A-FLOR
+
+-LAYER N A-FLOR-PATT C 252 A-FLOR-PATT LT Continuous A-FLOR-PATT LW 0.13 A-FLOR-PATT
+
+-LAYER N A-FLOR-FIN C 8 A-FLOR-FIN LT Continuous A-FLOR-FIN LW 0.18 A-FLOR-FIN
+
+-LAYER N A-FLOR-STRS C 4 A-FLOR-STRS LT Continuous A-FLOR-STRS LW 0.35 A-FLOR-STRS
+
+; ============================================================
+; SECTION 7: CEILING LAYERS (4)
+; ============================================================
+-LAYER N A-CLNG C 8 A-CLNG LT Hidden A-CLNG LW 0.18 A-CLNG
+
+-LAYER N A-CLNG-GRID C 8 A-CLNG-GRID LT Hidden A-CLNG-GRID LW 0.13 A-CLNG-GRID
+
+-LAYER N A-CLNG-SOFF C 8 A-CLNG-SOFF LT Hidden A-CLNG-SOFF LW 0.18 A-CLNG-SOFF
+
+-LAYER N A-CLNG-OPEN C 8 A-CLNG-OPEN LT Hidden A-CLNG-OPEN LW 0.18 A-CLNG-OPEN
+
+; ============================================================
+; SECTION 8: ROOF LAYERS (6)
+; ============================================================
+-LAYER N A-ROOF C 3 A-ROOF LT Continuous A-ROOF LW 0.35 A-ROOF
+
+-LAYER N A-ROOF-EDGE C 3 A-ROOF-EDGE LT Continuous A-ROOF-EDGE LW 0.35 A-ROOF-EDGE
+
+-LAYER N A-ROOF-RIDG C 3 A-ROOF-RIDG LT Continuous A-ROOF-RIDG LW 0.35 A-ROOF-RIDG
+
+-LAYER N A-ROOF-VALY C 3 A-ROOF-VALY LT Continuous A-ROOF-VALY LW 0.25 A-ROOF-VALY
+
+-LAYER N A-ROOF-OVER C 3 A-ROOF-OVER LT Hidden A-ROOF-OVER LW 0.18 A-ROOF-OVER
+
+-LAYER N A-ROOF-DOWN C 3 A-ROOF-DOWN LT Continuous A-ROOF-DOWN LW 0.18 A-ROOF-DOWN
+
+; ============================================================
+; SECTION 9: STAIR LAYERS (4)
+; ============================================================
+-LAYER N A-STRS C 4 A-STRS LT Continuous A-STRS LW 0.35 A-STRS
+
+-LAYER N A-STRS-UP C 4 A-STRS-UP LT Continuous A-STRS-UP LW 0.35 A-STRS-UP
+
+-LAYER N A-STRS-DOWN C 4 A-STRS-DOWN LT Hidden A-STRS-DOWN LW 0.25 A-STRS-DOWN
+
+-LAYER N A-STRS-HAND C 4 A-STRS-HAND LT Continuous A-STRS-HAND LW 0.25 A-STRS-HAND
+
+; ============================================================
+; SECTION 10: STRUCTURAL LAYERS (5)
+; ============================================================
+-LAYER N S-BEAM C 10 S-BEAM LT Continuous S-BEAM LW 0.35 S-BEAM
+
+-LAYER N S-COLS C 10 S-COLS LT Continuous S-COLS LW 0.50 S-COLS
+
+-LAYER N S-FOOT C 10 S-FOOT LT Continuous S-FOOT LW 0.35 S-FOOT
+
+-LAYER N S-FNDN C 10 S-FNDN LT Continuous S-FNDN LW 0.50 S-FNDN
+
+-LAYER N S-SLAB C 10 S-SLAB LT Continuous S-SLAB LW 0.35 S-SLAB
+
+; ============================================================
+; SECTION 11: GRID LAYERS (2)
+; ============================================================
+-LAYER N C-GRID C 9 C-GRID LT Center C-GRID LW 0.25 C-GRID
+
+-LAYER N C-GRID-IDEN C 9 C-GRID-IDEN LT Continuous C-GRID-IDEN LW 0.18 C-GRID-IDEN
+
+; ============================================================
+; SECTION 12: FURNITURE AND EQUIPMENT LAYERS (3)
+; ============================================================
+-LAYER N A-FURN C 8 A-FURN LT Continuous A-FURN LW 0.18 A-FURN
+
+-LAYER N A-FURN-FIXT C 8 A-FURN-FIXT LT Continuous A-FURN-FIXT LW 0.18 A-FURN-FIXT
+
+-LAYER N A-EQPM C 8 A-EQPM LT Continuous A-EQPM LW 0.18 A-EQPM
+
+; ============================================================
+; SECTION 13: ANNOTATION LAYERS (6)
+; ============================================================
+-LAYER N A-ANNO-DIMS C 7 A-ANNO-DIMS LT Continuous A-ANNO-DIMS LW 0.18 A-ANNO-DIMS
+
+-LAYER N A-ANNO-TEXT C 7 A-ANNO-TEXT LT Continuous A-ANNO-TEXT LW 0.18 A-ANNO-TEXT
+
+-LAYER N A-ANNO-NOTE C 7 A-ANNO-NOTE LT Continuous A-ANNO-NOTE LW 0.18 A-ANNO-NOTE
+
+-LAYER N A-ANNO-TAGS C 7 A-ANNO-TAGS LT Continuous A-ANNO-TAGS LW 0.18 A-ANNO-TAGS
+
+-LAYER N A-ANNO-SYMB C 7 A-ANNO-SYMB LT Continuous A-ANNO-SYMB LW 0.18 A-ANNO-SYMB
+
+-LAYER N A-ANNO-LEAD C 7 A-ANNO-LEAD LT Continuous A-ANNO-LEAD LW 0.18 A-ANNO-LEAD
+
+; ============================================================
+; SECTION 14: SECTION AND ELEVATION MARKERS (3)
+; ============================================================
+-LAYER N A-SECT-IDEN C 6 A-SECT-IDEN LT Continuous A-SECT-IDEN LW 0.25 A-SECT-IDEN
+
+-LAYER N A-SECT-CUT C 6 A-SECT-CUT LT Continuous A-SECT-CUT LW 0.35 A-SECT-CUT
+
+-LAYER N A-ELEV-IDEN C 6 A-ELEV-IDEN LT Continuous A-ELEV-IDEN LW 0.25 A-ELEV-IDEN
+
+; ============================================================
+; SECTION 15: HATCH LAYERS (4)
+; ============================================================
+-LAYER N A-HATCH C 252 A-HATCH LT Continuous A-HATCH LW 0.13 A-HATCH
+
+-LAYER N A-HATCH-CONC C 252 A-HATCH-CONC LT Continuous A-HATCH-CONC LW 0.13 A-HATCH-CONC
+
+-LAYER N A-HATCH-WOOD C 252 A-HATCH-WOOD LT Continuous A-HATCH-WOOD LW 0.13 A-HATCH-WOOD
+
+-LAYER N A-HATCH-INSL C 252 A-HATCH-INSL LT Continuous A-HATCH-INSL LW 0.13 A-HATCH-INSL
+
+; ============================================================
+; SECTION 16: DEMOLITION LAYERS (4)
+; ============================================================
+-LAYER N A-DEMO C 14 A-DEMO LT Phantom A-DEMO LW 0.35 A-DEMO
+
+-LAYER N A-DEMO-WALL C 14 A-DEMO-WALL LT Phantom A-DEMO-WALL LW 0.35 A-DEMO-WALL
+
+-LAYER N A-DEMO-DOOR C 14 A-DEMO-DOOR LT Phantom A-DEMO-DOOR LW 0.25 A-DEMO-DOOR
+
+-LAYER N A-DEMO-WIND C 14 A-DEMO-WIND LT Phantom A-DEMO-WIND LW 0.25 A-DEMO-WIND
+
+; ============================================================
+; SECTION 17: EXISTING CONDITIONS LAYERS (3)
+; ============================================================
+-LAYER N A-EXST-WALL C 253 A-EXST-WALL LT Continuous A-EXST-WALL LW 0.50 A-EXST-WALL
+
+-LAYER N A-EXST-DOOR C 253 A-EXST-DOOR LT Continuous A-EXST-DOOR LW 0.35 A-EXST-DOOR
+
+-LAYER N A-EXST-WIND C 253 A-EXST-WIND LT Continuous A-EXST-WIND LW 0.35 A-EXST-WIND
+
+; ============================================================
+; SECTION 18: SITE/PROPERTY LAYERS (4)
+; ============================================================
+-LAYER N C-PROP C 9 C-PROP LT Phantom C-PROP LW 0.25 C-PROP
+
+-LAYER N C-TOPO C 9 C-TOPO LT Continuous C-TOPO LW 0.18 C-TOPO
+
+-LAYER N C-ROAD C 9 C-ROAD LT Continuous C-ROAD LW 0.25 C-ROAD
+
+-LAYER N C-WALK C 9 C-WALK LT Continuous C-WALK LW 0.18 C-WALK
+
+; ============================================================
+; SECTION 19: SHEET/VIEWPORT LAYERS (2)
+; ============================================================
+-LAYER N V-VPRT C 8 V-VPRT LT Continuous V-VPRT LW 0.18 V-VPRT P N V-VPRT
+
+-LAYER N V-TITL C 7 V-TITL LT Continuous V-TITL LW 0.18 V-TITL
+
+; ============================================================
+; SECTION 20: SET CURRENT LAYER AND FINALIZE
+; ============================================================
+-LAYER S 0
+
+; ============================================================
+; SECTION 21: TEXT STYLES
+; ============================================================
+-STYLE ANNO-TEXT Arial 0 1 0 N N
+-STYLE ANNO-TITLE Arial 0 1 0 N N
+; ============================================================
+; SECTION 22: DIMENSION STYLE VARIABLES
+; ============================================================
+SETVAR DIMLUNIT 4
+SETVAR DIMASZ 0.125
+SETVAR DIMTXT 0.09375
+SETVAR DIMEXO 0.0625
+SETVAR DIMEXE 0.125
+SETVAR DIMDLI 0.375
+SETVAR DIMGAP 0.0625
+SETVAR DIMTAD 1
+SETVAR DIMTIH 0
+SETVAR DIMTOH 0
+SETVAR DIMZIN 0
+SETVAR DIMFRAC 2
+; ============================================================
+; SECTION 23: SAVE AND APPLY DIMENSION STYLE
+; ============================================================
+-DIMSTYLE S ARCH-DIMS
+-DIMSTYLE R ARCH-DIMS
+; ============================================================
+; SECTION 24: CREATE LAYOUT
+; ============================================================
+-LAYOUT N ARCH-D-Starter
+; ============================================================
+; SECTION 25: CLEANUP (NO PURGE - layers are empty)
+; ============================================================
+REGEN
+ZOOM E
+; ============================================================
+; SCRIPT COMPLETE
+; Total layers created: 70 (plus 0 and Defpoints)
+; Next steps:
+;   1. Verify layers in Layer Properties Manager
+;   2. Configure annotation scales (SCALELISTEDIT)
+;   3. Configure page setup for layout
+;   4. Save as DWT template
+; ============================================================
